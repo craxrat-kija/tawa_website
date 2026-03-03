@@ -35,29 +35,29 @@ const Navbar = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500`}
     >
       {/* Top Header Bar */}
-      <div className={`bg-[#5F7F2E] text-white py-4 border-b border-white/5 transition-all duration-500 hidden md:block ${isScrolled ? "opacity-0 h-0 overflow-hidden py-0" : "opacity-100 h-auto"
+      <div className={`bg-[#5F7F2E] text-white py-5 border-b border-white/5 transition-all duration-500 hidden md:block ${isScrolled ? "opacity-0 h-0 overflow-hidden py-0" : "opacity-100 h-auto"
         }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 pr-8 lg:pr-16">
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Coat_of_arms_of_Tanzania.svg/512px-Coat_of_arms_of_Tanzania.svg.png"
+              src="/coat_of_arms_transparent.png"
               alt="Tanzania Coat of Arms"
-              className="h-14 lg:h-20 w-auto object-contain"
+              className="h-20 lg:h-28 w-auto object-contain"
             />
           </div>
-          <div className="flex-1 text-center font-outfit space-y-2">
-            <h1 className="text-sm sm:text-base lg:text-xl font-bold tracking-[0.2em] sm:tracking-[0.4em] text-white uppercase">
+          <div className="flex-1 text-center font-montserrat space-y-2">
+            <h1 className="text-sm sm:text-base lg:text-xl font-bold tracking-[0.2em] sm:tracking-[0.4em] text-yellow-300 uppercase">
               The United Republic of Tanzania
             </h1>
             <h2 className="text-base sm:text-2xl lg:text-3xl font-black tracking-tight text-white uppercase">
               Tanzania Wildlife Management Authority (TAWA)
             </h2>
           </div>
-          <div className="flex items-center justify-end">
+          <div className="flex items-center justify-end pl-8 lg:pl-16">
             <img
-              src="/tawa_logo.png"
+              src="/tawa_logo_transparent.png"
               alt="TAWA Logo"
-              className="h-14 lg:h-20 w-auto object-contain"
+              className="h-20 lg:h-28 w-auto object-contain"
             />
           </div>
         </div>
