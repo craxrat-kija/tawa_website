@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Menu, X, Search, Sun, Moon, ChevronDown, Link as LinkIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { destinations } from "../data/destinations";
 
 const menuItems = [
-  { label: "Home", href: "#home" },
-  { label: "About TAWA", href: "#about" },
-  { label: "Destinations", href: "#destinations" },
-  { label: "News", href: "#news" },
-  { label: "Gallery", href: "#gallery" },
+  { label: "Home", href: "/#home" },
+  { label: "About TAWA", href: "/#about" },
+  { label: "Destinations", href: "/#destinations" },
+  { label: "News", href: "/#news" },
+  { label: "Gallery", href: "/#gallery" },
 ];
 
 const Navbar = () => {
@@ -72,19 +74,69 @@ const Navbar = () => {
             <div className="hidden lg:flex flex-1 items-center justify-center">
               <div className="flex items-center gap-5 xl:gap-6">
                 {menuItems.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className={`relative group px-1 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
-                      ${isScrolled
-                        ? "text-foreground hover:text-primary"
-                        : "text-white hover:text-yellow-300"
-                      }`}
-                  >
-                    {item.label}
-                    <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-full transition-all duration-300 rounded-full
-                      ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
-                  </a>
+                  item.label === "Destinations" ? (
+                    <div key={item.label} className="relative group">
+                      <a
+                        href={item.href}
+                        className={`flex items-center gap-1 relative px-1 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
+                          ${isScrolled
+                            ? "text-foreground hover:text-primary"
+                            : "text-white hover:text-yellow-300"
+                          }`}
+                      >
+                        {item.label}
+                        <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                        <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-[calc(100%-1.25rem)] transition-all duration-300 rounded-full
+                          ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
+                      </a>
+
+                      {/* Destinations Dropdown */}
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                        <div className="relative bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-border overflow-hidden p-2">
+                          {/* Aesthetic Background Image Overlay - Clearer Visibility */}
+                          <div
+                            className="absolute inset-0 opacity-[0.85] bg-cover bg-center pointer-events-none"
+                            style={{ backgroundImage: "url('/images/dropdown-bg.jpg')" }}
+                          />
+
+                          <div className="relative z-10 grid grid-cols-1 gap-1">
+                            {destinations.slice(0, 6).map((dest) => (
+                              <Link
+                                key={dest.id}
+                                to={`/destinations/${dest.id}`}
+                                className="relative px-4 py-3 text-base font-black text-[#162b0e] hover:text-[#3d5219] bg-white/60 hover:bg-white/95 rounded-xl transition-all flex items-center gap-3 group/link backdrop-blur-md border border-white/50 shadow-sm"
+                              >
+                                <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
+                                <span className="drop-shadow-sm">{dest.name}</span>
+                              </Link>
+                            ))}
+                          </div>
+                          <div className="relative z-10 mt-2 border-t border-border/50">
+                            <Link
+                              to="/destinations"
+                              className="block px-4 py-3 text-xs font-bold text-primary bg-white/70 hover:bg-white/95 rounded-b-lg text-center uppercase tracking-widest transition-colors backdrop-blur-sm"
+                            >
+                              View All 13 Reserves
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      className={`relative group px-1 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
+                        ${isScrolled
+                          ? "text-foreground hover:text-primary"
+                          : "text-white hover:text-yellow-300"
+                        }`}
+                    >
+                      {item.label}
+                      <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-full transition-all duration-300 rounded-full
+                        ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
+                    </a>
+                  )
                 ))}
               </div>
             </div>
@@ -93,7 +145,7 @@ const Navbar = () => {
             <div className="flex items-center justify-end gap-2 lg:gap-3 flex-shrink-0">
               {/* Contact Link */}
               <a
-                href="#contact"
+                href="/#contact"
                 className={`hidden lg:flex relative group px-2 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
                   ${isScrolled
                     ? "text-foreground hover:text-primary"
@@ -121,30 +173,38 @@ const Navbar = () => {
 
                 {/* Dropdown Menu */}
                 <div className="absolute top-full right-0 mt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right p-1 z-50">
-                  <div className="bg-background rounded-xl shadow-2xl border border-border overflow-hidden flex flex-col p-1">
-                    <a
-                      href="https://portal.maliasili.go.tz/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-3 text-sm font-medium text-foreground hover:bg-muted hover:text-primary rounded-lg transition-colors flex items-center"
-                    >
-                      TAWA Portal
-                    </a>
-                    <a
-                      href="https://mail.tawa.go.tz/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-3 text-sm font-medium text-foreground hover:bg-muted hover:text-primary rounded-lg transition-colors flex items-center"
-                    >
-                      Webmail
-                    </a>
+                  <div className="relative bg-white/95 backdrop-blur-md rounded-xl shadow-2xl border border-border overflow-hidden p-2">
+                    {/* Aesthetic Background Image Overlay - Clearer Visibility */}
+                    <div
+                      className="absolute inset-0 opacity-[0.85] bg-cover bg-center pointer-events-none"
+                      style={{ backgroundImage: "url('/images/dest-1.jpg')" }}
+                    />
+
+                    <div className="relative z-10 flex flex-col gap-1">
+                      <a
+                        href="https://portal.maliasili.go.tz/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative px-4 py-2.5 text-sm font-black text-[#162b0e] hover:text-[#3d5219] bg-white/60 hover:bg-white/95 rounded-lg transition-all flex items-center justify-center backdrop-blur-md border border-white/50 shadow-sm group/link"
+                      >
+                        <span className="drop-shadow-sm">TAWA Portal</span>
+                      </a>
+                      <a
+                        href="https://mail.tawa.go.tz/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative px-4 py-2.5 text-sm font-black text-[#162b0e] hover:text-[#3d5219] bg-white/60 hover:bg-white/95 rounded-lg transition-all flex items-center justify-center backdrop-blur-md border border-white/50 shadow-sm group/link"
+                      >
+                        <span className="drop-shadow-sm">Webmail</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Plan Visit CTA */}
               <a
-                href="#contact"
+                href="/#contact"
                 className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg gold-gradient text-primary-foreground font-medium text-sm transition-transform hover:scale-105 shadow-lg mr-2"
               >
                 Plan Your Visit
