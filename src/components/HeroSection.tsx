@@ -17,7 +17,7 @@ const HeroSection = () => {
         {/* Video Layer */}
         <div className="absolute inset-0 pointer-events-none">
           <iframe
-            src="https://www.youtube.com/embed/v7p6VZiRInQ?autoplay=1&mute=1&loop=1&playlist=v7p6VZiRInQ&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1"
+            src="https://www.youtube.com/embed/v7p6VZiRInQ?autoplay=1&mute=1&loop=1&playlist=v7p6VZiRInQ&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&end=40"
             className="absolute top-1/2 left-1/2 w-[177.77vh] min-w-full h-[56.25vw] min-h-full -translate-x-1/2 -translate-y-1/2 brightness-110 saturate-125 contrast-110 focus:outline-none"
             allow="autoplay; encrypted-media"
             title="Tanzania Wildlife Background Video"
