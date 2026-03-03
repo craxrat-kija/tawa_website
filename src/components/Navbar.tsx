@@ -136,8 +136,8 @@ const Navbar = () => {
                 {menuItems.map((item) => (
                   (item.dropdownItems || item.useDestinations) ? (
                     <div key={item.label} className="relative group">
-                      <a
-                        href={item.href}
+                      <Link
+                        to={item.href}
                         className={`flex items-center gap-1 relative px-1 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
                           ${isScrolled
                             ? "text-foreground hover:text-primary"
@@ -148,7 +148,7 @@ const Navbar = () => {
                         <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
                         <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-[calc(100%-1.25rem)] transition-all duration-300 rounded-full
                           ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
-                      </a>
+                      </Link>
 
                       {/* Standardized Dropdown */}
                       <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
@@ -195,9 +195,9 @@ const Navbar = () => {
                       </div>
                     </div>
                   ) : (
-                    <a
+                    <Link
                       key={item.label}
-                      href={item.href}
+                      to={item.href}
                       className={`relative group px-1 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
                         ${isScrolled
                           ? "text-foreground hover:text-primary"
@@ -207,7 +207,7 @@ const Navbar = () => {
                       {item.label}
                       <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-full transition-all duration-300 rounded-full
                         ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
-                    </a>
+                    </Link>
                   )
                 ))}
               </div>
@@ -216,8 +216,8 @@ const Navbar = () => {
             {/* Right side group */}
             <div className="flex items-center justify-end gap-2 lg:gap-3 flex-shrink-0">
               {/* Contact Link */}
-              <a
-                href="/#contact"
+              <Link
+                to="/#contact"
                 className={`hidden lg:flex relative group px-2 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
                   ${isScrolled
                     ? "text-foreground hover:text-primary"
@@ -227,7 +227,7 @@ const Navbar = () => {
                 Contact
                 <span className={`absolute left-4 -bottom-0.5 h-[2px] w-0 group-hover:w-[calc(100%-2rem)] transition-all duration-300 rounded-full
                   ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
-              </a>
+              </Link>
 
               {/* Additional Professional Links Dropdown */}
               <div className="hidden lg:relative lg:flex items-center group mr-2">
@@ -275,12 +275,12 @@ const Navbar = () => {
               </div>
 
               {/* Plan Visit CTA */}
-              <a
-                href="/#contact"
+              <Link
+                to="/#contact"
                 className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg gold-gradient text-primary-foreground font-medium text-sm transition-transform hover:scale-105 shadow-lg mr-2"
               >
                 Plan Your Visit
-              </a>
+              </Link>
 
               {/* Theme Toggle — Far Right */}
               <button
@@ -318,13 +318,13 @@ const Navbar = () => {
             <div className="px-4 py-6 space-y-4">
               {menuItems.map((item) => (
                 <div key={item.label} className="space-y-2">
-                  <a
-                    href={item.href}
+                  <Link
+                    to={item.href}
                     onClick={() => setIsMobileOpen(false)}
                     className="block px-4 py-2 rounded-lg text-primary font-bold text-lg border-l-4 border-safari-gold bg-safari-gold/5 transition-colors"
                   >
                     {item.label}
-                  </a>
+                  </Link>
 
                   {(item.dropdownItems || item.useDestinations) && (
                     <div className="grid grid-cols-1 gap-1 ml-4 border-l border-border pl-4">
@@ -363,20 +363,20 @@ const Navbar = () => {
               ))}
 
               <div className="pt-4 border-t border-border mt-4 space-y-3">
-                <a
-                  href="/#contact"
+                <Link
+                  to="/#contact"
                   onClick={() => setIsMobileOpen(false)}
                   className="block px-4 py-3 rounded-lg border border-border text-foreground font-medium text-center hover:bg-muted transition-colors"
                 >
                   Contact Us
-                </a>
-                <a
-                  href="/#contact"
+                </Link>
+                <Link
+                  to="/#contact"
                   onClick={() => setIsMobileOpen(false)}
                   className="block px-4 py-3 rounded-lg gold-gradient text-primary-foreground font-bold text-center shadow-lg"
                 >
                   Plan Your Visit
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>

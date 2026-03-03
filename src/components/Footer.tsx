@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const quickLinks = [
-    { label: "About TAWA", href: "#about" },
-    { label: "Destinations", href: "#destinations" },
-    { label: "News & Events", href: "#news" },
-    { label: "Gallery", href: "#gallery" },
-    { label: "Contact Us", href: "#contact" },
+    { label: "About TAWA", href: "/about" },
+    { label: "Destinations", href: "/destinations" },
+    { label: "News & Events", href: "/news" },
+    { label: "Gallery", href: "/gallery" },
+    { label: "Contact Us", href: "/#contact" },
   ];
 
   const reserves = [
@@ -56,9 +57,9 @@ const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-muted-foreground text-sm hover:text-primary transition-colors">
+                  <Link to={link.href} className="text-muted-foreground text-sm hover:text-primary transition-colors">
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -70,9 +71,9 @@ const Footer = () => {
             <ul className="space-y-3">
               {reserves.map((r) => (
                 <li key={r}>
-                  <a href="#destinations" className="text-muted-foreground text-sm hover:text-primary transition-colors">
+                  <Link to="/destinations" className="text-muted-foreground text-sm hover:text-primary transition-colors">
                     {r}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
