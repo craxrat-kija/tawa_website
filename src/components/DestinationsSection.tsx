@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { destinations } from "../data/destinations";
+import OptimizedImage from "./OptimizedImage";
 
 const DestinationsSection = () => {
   return (
@@ -32,11 +33,11 @@ const DestinationsSection = () => {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="group relative rounded-2xl overflow-hidden cursor-pointer aspect-[4/5] shadow-lg hover:shadow-2xl transition-all"
               >
-                <img
+                <OptimizedImage
                   src={dest.image}
                   alt={`${dest.name} safari landscape`}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  loading="lazy"
+                  containerClassName="w-full h-full"
                 />
                 <div className="overlay-gradient absolute inset-0 transition-opacity" />
 

@@ -3,6 +3,7 @@ import { ArrowLeft, Newspaper, ArrowRight, FileText, Download, MapPin } from "lu
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import OptimizedImage from "../components/OptimizedImage";
 
 const News = () => {
     return (
@@ -35,10 +36,11 @@ const News = () => {
                         className="group relative bg-card rounded-3xl shadow-xl overflow-hidden border border-border/50 flex flex-col md:flex-row cursor-pointer hover:shadow-2xl transition-all duration-300"
                     >
                         <div className="md:w-1/2 h-64 md:h-auto relative overflow-hidden">
-                            <img
+                            <OptimizedImage
                                 src="/images/hero-safari.jpg"
                                 alt="TAWA Anti-Poaching"
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                containerClassName="w-full h-full"
                             />
                             <div className="absolute top-4 left-4">
                                 <span className="px-4 py-1.5 rounded-full bg-safari-gold text-primary-foreground text-xs font-bold uppercase tracking-wider shadow-lg backdrop-blur-md">
@@ -78,7 +80,12 @@ const News = () => {
                                 className="group bg-card rounded-2xl shadow-lg border border-border/50 overflow-hidden hover:shadow-xl transition-all cursor-pointer flex flex-col"
                             >
                                 <div className="h-48 relative overflow-hidden">
-                                    <img src="/images/dest-1.jpg" alt="Elephants" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                    <OptimizedImage
+                                        src="/images/dest-1.jpg"
+                                        alt="Elephants"
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        containerClassName="w-full h-full"
+                                    />
                                     <div className="absolute top-3 left-3">
                                         <span className="px-3 py-1 bg-card/90 backdrop-blur-sm text-primary text-xs font-bold uppercase tracking-wider rounded-lg">Conservation</span>
                                     </div>
@@ -103,7 +110,12 @@ const News = () => {
                                 className="group bg-card rounded-2xl shadow-lg border border-border/50 overflow-hidden hover:shadow-xl transition-all cursor-pointer flex flex-col"
                             >
                                 <div className="h-48 relative overflow-hidden">
-                                    <img src="/images/dest-2.jpg" alt="Community" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                    <OptimizedImage
+                                        src="/images/dest-2.jpg"
+                                        alt="Community"
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        containerClassName="w-full h-full"
+                                    />
                                     <div className="absolute top-3 left-3">
                                         <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary text-xs font-bold uppercase tracking-wider rounded-lg">Community</span>
                                     </div>
@@ -128,7 +140,12 @@ const News = () => {
                                 className="group bg-card rounded-2xl shadow-lg border border-border/50 overflow-hidden hover:shadow-xl transition-all cursor-pointer flex flex-col"
                             >
                                 <div className="h-48 relative overflow-hidden">
-                                    <img src="/images/dest-4.jpg" alt="Tourism" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                    <OptimizedImage
+                                        src="/images/dest-4.jpg"
+                                        alt="Tourism"
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        containerClassName="w-full h-full"
+                                    />
                                     <div className="absolute top-3 left-3">
                                         <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary text-xs font-bold uppercase tracking-wider rounded-lg">Tourism</span>
                                     </div>
@@ -217,7 +234,7 @@ const News = () => {
                                     </div>
                                 </div>
                                 {/* Pub 2 */}
-                                <div className="group bg-white rounded-2xl p-6 border border-border/50 shadow-sm hover:shadow-lg transition-all flex items-center justify-between cursor-pointer">
+                                <div className="group bg-card rounded-2xl p-6 border border-border/50 shadow-sm hover:shadow-lg transition-all flex items-center justify-between cursor-pointer">
                                     <div className="flex items-center gap-5">
                                         <div className="bg-safari-gold/20 text-[#a37c00] p-4 rounded-xl shadow-inner"><FileText className="w-7 h-7" /></div>
                                         <div>
@@ -230,7 +247,7 @@ const News = () => {
                                     </div>
                                 </div>
                                 {/* Pub 3 */}
-                                <div className="group bg-white rounded-2xl p-6 border border-border/50 shadow-sm hover:shadow-lg transition-all flex items-center justify-between cursor-pointer">
+                                <div className="group bg-card rounded-2xl p-6 border border-border/50 shadow-sm hover:shadow-lg transition-all flex items-center justify-between cursor-pointer">
                                     <div className="flex items-center gap-5">
                                         <div className="bg-safari-gold/20 text-[#a37c00] p-4 rounded-xl shadow-inner"><FileText className="w-7 h-7" /></div>
                                         <div>

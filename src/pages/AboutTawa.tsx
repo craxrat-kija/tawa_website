@@ -3,6 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import OptimizedImage from "../components/OptimizedImage";
 
 import { useState } from "react";
 import { OrgChartModal } from "../components/OrgChart";
@@ -50,7 +51,12 @@ const AboutTawa = () => {
                             </div>
                         </div>
                         <div className="h-full min-h-[300px] rounded-2xl overflow-hidden shadow-lg relative">
-                            <img src="/images/hero-safari.jpg" className="absolute inset-0 w-full h-full object-cover" alt="TAWA Landscape" />
+                            <OptimizedImage
+                                src="/images/hero-safari.jpg"
+                                className="absolute inset-0 w-full h-full object-cover"
+                                alt="TAWA Landscape"
+                                containerClassName="absolute inset-0 w-full h-full"
+                            />
                         </div>
                     </div>
 

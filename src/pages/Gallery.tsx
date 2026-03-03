@@ -4,6 +4,7 @@ import { ArrowLeft, Image as ImageIcon, Video as VideoIcon, Play as PlayIcon } f
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import OptimizedImage from "../components/OptimizedImage";
 
 const galleryData = [
     {
@@ -177,7 +178,12 @@ const Gallery = () => {
                                         item.size === "wide" ? "md:col-span-2" : "row-span-1"
                                     }`}
                             >
-                                <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                <OptimizedImage
+                                    src={item.image}
+                                    alt={item.title}
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    containerClassName="w-full h-full"
+                                />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
 
                                 <div className="absolute top-4 left-4 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full border border-white/30 text-white text-xs font-bold tracking-widest uppercase flex items-center gap-2">
