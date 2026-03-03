@@ -7,6 +7,11 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import DestinationsList from "./pages/Destinations";
 import DestinationDetail from "./pages/DestinationDetail";
+import AboutTawa from "./pages/AboutTawa";
+import News from "./pages/News";
+import Gallery from "./pages/Gallery";
+
+import ScrollToTopWrapper from "./components/ScrollToTopWrapper";
 
 const queryClient = new QueryClient();
 
@@ -16,13 +21,18 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/destinations" element={<DestinationsList />} />
-          <Route path="/destinations/:id" element={<DestinationDetail />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <ScrollToTopWrapper>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/destinations" element={<DestinationsList />} />
+            <Route path="/destinations/:id" element={<DestinationDetail />} />
+            <Route path="/about" element={<AboutTawa />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/gallery" element={<Gallery />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ScrollToTopWrapper>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
