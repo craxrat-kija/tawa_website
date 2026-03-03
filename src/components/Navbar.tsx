@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Search, Sun, Moon, ChevronDown } from "lucide-react";
+import { Menu, X, Search, Sun, Moon, ChevronDown, Link as LinkIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const menuItems = [
@@ -8,7 +8,6 @@ const menuItems = [
   { label: "Destinations", href: "#destinations" },
   { label: "News", href: "#news" },
   { label: "Gallery", href: "#gallery" },
-  { label: "Contact", href: "#contact" },
 ];
 
 const Navbar = () => {
@@ -65,31 +64,93 @@ const Navbar = () => {
 
       <div className={`transition-all duration-500 ${isScrolled
         ? "bg-background/95 backdrop-blur-md shadow-lg border-b border-border"
-        : "bg-transparent"
+        : "bg-[#3d5219]/95 backdrop-blur-sm border-b border-white/10"
         }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Spacer for layout balance */}
-            <div className="flex-1 lg:hidden" />
-
-            {/* Desktop Menu */}
-            <div className="hidden lg:flex items-center gap-1">
-              {menuItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-primary/10 ${isScrolled
-                    ? "text-foreground hover:text-primary"
-                    : "text-primary-foreground/90 hover:text-primary-foreground"
-                    }`}
-                >
-                  {item.label}
-                </a>
-              ))}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="flex items-center justify-between h-20 w-full gap-4">
+            {/* Desktop Menu — perfectly centered using flex-1 */}
+            <div className="hidden lg:flex flex-1 items-center justify-center">
+              <div className="flex items-center gap-5 xl:gap-6">
+                {menuItems.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className={`relative group px-1 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
+                      ${isScrolled
+                        ? "text-foreground hover:text-primary"
+                        : "text-white hover:text-yellow-300"
+                      }`}
+                  >
+                    {item.label}
+                    <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-full transition-all duration-300 rounded-full
+                      ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
+                  </a>
+                ))}
+              </div>
             </div>
 
-            {/* Right side */}
-            <div className="flex items-center gap-2">
+            {/* Right side group */}
+            <div className="flex items-center justify-end gap-2 lg:gap-3 flex-shrink-0">
+              {/* Contact Link */}
+              <a
+                href="#contact"
+                className={`hidden lg:flex relative group px-2 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
+                  ${isScrolled
+                    ? "text-foreground hover:text-primary"
+                    : "text-white hover:text-yellow-300"
+                  }`}
+              >
+                Contact
+                <span className={`absolute left-4 -bottom-0.5 h-[2px] w-0 group-hover:w-[calc(100%-2rem)] transition-all duration-300 rounded-full
+                  ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
+              </a>
+
+              {/* Additional Professional Links Dropdown */}
+              <div className="hidden lg:relative lg:flex items-center group mr-2">
+                <button
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-xs tracking-wide uppercase transition-all border
+                    ${isScrolled
+                      ? "border-border text-foreground hover:bg-muted"
+                      : "border-white/20 text-white hover:bg-white/10"
+                    }`}
+                >
+                  <LinkIcon className="w-4 h-4" />
+                  <span>Staff Services</span>
+                  <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />
+                </button>
+
+                {/* Dropdown Menu */}
+                <div className="absolute top-full right-0 mt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right p-1 z-50">
+                  <div className="bg-background rounded-xl shadow-2xl border border-border overflow-hidden flex flex-col p-1">
+                    <a
+                      href="https://portal.maliasili.go.tz/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-3 text-sm font-medium text-foreground hover:bg-muted hover:text-primary rounded-lg transition-colors flex items-center"
+                    >
+                      TAWA Portal
+                    </a>
+                    <a
+                      href="https://mail.tawa.go.tz/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-3 text-sm font-medium text-foreground hover:bg-muted hover:text-primary rounded-lg transition-colors flex items-center"
+                    >
+                      Webmail
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Plan Visit CTA */}
+              <a
+                href="#contact"
+                className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg gold-gradient text-primary-foreground font-medium text-sm transition-transform hover:scale-105 shadow-lg mr-2"
+              >
+                Plan Your Visit
+              </a>
+
+              {/* Theme Toggle — Far Right */}
               <button
                 onClick={toggleTheme}
                 className={`p-2 rounded-lg transition-colors ${isScrolled ? "text-foreground hover:bg-muted" : "text-primary-foreground hover:bg-primary-foreground/10"
@@ -98,22 +159,6 @@ const Navbar = () => {
               >
                 {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
-
-              <button
-                className={`p-2 rounded-lg transition-colors ${isScrolled ? "text-foreground hover:bg-muted" : "text-primary-foreground hover:bg-primary-foreground/10"
-                  }`}
-                aria-label="Search"
-              >
-                <Search className="w-5 h-5" />
-              </button>
-
-              {/* Plan Visit CTA */}
-              <a
-                href="#contact"
-                className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg gold-gradient text-primary-foreground font-medium text-sm transition-transform hover:scale-105 shadow-lg"
-              >
-                Plan Your Visit
-              </a>
 
               {/* Mobile menu toggle */}
               <button
