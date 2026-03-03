@@ -32,85 +32,99 @@ const Navbar = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-background/95 backdrop-blur-md shadow-lg border-b border-border"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <a href="#home" className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full safari-gradient flex items-center justify-center">
-              <span className="text-primary-foreground font-display font-bold text-lg">T</span>
-            </div>
-            <div className="hidden sm:block">
-              <p className={`font-display font-bold text-lg leading-tight ${isScrolled ? 'text-foreground' : 'text-primary-foreground'}`}>
-                TAWA
-              </p>
-              <p className={`text-xs leading-tight ${isScrolled ? 'text-muted-foreground' : 'text-primary-foreground/70'}`}>
-                Wildlife Authority
-              </p>
-            </div>
-          </a>
+      {/* Top Header Bar */}
+      <div className={`bg-[#5F7F2E] text-white py-4 border-b border-white/5 transition-all duration-500 hidden md:block ${isScrolled ? "opacity-0 h-0 overflow-hidden py-0" : "opacity-100 h-auto"
+        }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Coat_of_arms_of_Tanzania.svg/512px-Coat_of_arms_of_Tanzania.svg.png"
+              alt="Tanzania Coat of Arms"
+              className="h-14 lg:h-20 w-auto object-contain"
+            />
+          </div>
+          <div className="flex-1 text-center font-outfit space-y-2">
+            <h1 className="text-sm sm:text-base lg:text-xl font-bold tracking-[0.2em] sm:tracking-[0.4em] text-white uppercase">
+              The United Republic of Tanzania
+            </h1>
+            <h2 className="text-base sm:text-2xl lg:text-3xl font-black tracking-tight text-white uppercase">
+              Tanzania Wildlife Management Authority (TAWA)
+            </h2>
+          </div>
+          <div className="flex items-center justify-end">
+            <img
+              src="/tawa_logo.png"
+              alt="TAWA Logo"
+              className="h-14 lg:h-20 w-auto object-contain"
+            />
+          </div>
+        </div>
+      </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-1">
-            {menuItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-primary/10 ${
-                  isScrolled
+      <div className={`transition-all duration-500 ${isScrolled
+        ? "bg-background/95 backdrop-blur-md shadow-lg border-b border-border"
+        : "bg-transparent"
+        }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            {/* Spacer for layout balance */}
+            <div className="flex-1 lg:hidden" />
+
+            {/* Desktop Menu */}
+            <div className="hidden lg:flex items-center gap-1">
+              {menuItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-primary/10 ${isScrolled
                     ? "text-foreground hover:text-primary"
                     : "text-primary-foreground/90 hover:text-primary-foreground"
-                }`}
+                    }`}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+
+            {/* Right side */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={toggleTheme}
+                className={`p-2 rounded-lg transition-colors ${isScrolled ? "text-foreground hover:bg-muted" : "text-primary-foreground hover:bg-primary-foreground/10"
+                  }`}
+                aria-label="Toggle theme"
               >
-                {item.label}
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+
+              <button
+                className={`p-2 rounded-lg transition-colors ${isScrolled ? "text-foreground hover:bg-muted" : "text-primary-foreground hover:bg-primary-foreground/10"
+                  }`}
+                aria-label="Search"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+
+              {/* Plan Visit CTA */}
+              <a
+                href="#contact"
+                className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg gold-gradient text-primary-foreground font-medium text-sm transition-transform hover:scale-105 shadow-lg"
+              >
+                Plan Your Visit
               </a>
-            ))}
-          </div>
 
-          {/* Right side */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-lg transition-colors ${
-                isScrolled ? "text-foreground hover:bg-muted" : "text-primary-foreground hover:bg-primary-foreground/10"
-              }`}
-              aria-label="Toggle theme"
-            >
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
-
-            <button
-              className={`p-2 rounded-lg transition-colors ${
-                isScrolled ? "text-foreground hover:bg-muted" : "text-primary-foreground hover:bg-primary-foreground/10"
-              }`}
-              aria-label="Search"
-            >
-              <Search className="w-5 h-5" />
-            </button>
-
-            {/* Plan Visit CTA */}
-            <a
-              href="#contact"
-              className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg gold-gradient text-primary-foreground font-medium text-sm transition-transform hover:scale-105 shadow-lg"
-            >
-              Plan Your Visit
-            </a>
-
-            {/* Mobile menu toggle */}
-            <button
-              onClick={() => setIsMobileOpen(!isMobileOpen)}
-              className={`lg:hidden p-2 rounded-lg transition-colors ${
-                isScrolled ? "text-foreground" : "text-primary-foreground"
-              }`}
-              aria-label="Toggle menu"
-            >
-              {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+              {/* Mobile menu toggle */}
+              <button
+                onClick={() => setIsMobileOpen(!isMobileOpen)}
+                className={`lg:hidden p-2 rounded-lg transition-colors ${isScrolled ? "text-foreground" : "text-primary-foreground"
+                  }`}
+                aria-label="Toggle menu"
+              >
+                {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
         </div>
       </div>
