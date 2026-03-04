@@ -5,65 +5,118 @@ import { motion, AnimatePresence } from "framer-motion";
 import { destinations } from "../data/destinations";
 
 const menuItems = [
-  { label: "Home", href: "/#home" },
+  { label: "Home", href: "/" },
   {
-    label: "About TAWA",
+    label: "About Us",
     href: "/about",
     bgImage: "/images/dest-2.jpg",
     viewAllHref: "/about",
-    viewAllText: "Read About TAWA",
+    viewAllText: "About TAWA",
     dropdownItems: [
-      { name: "Our History", href: "/about#history" },
-      { name: "Mission & Vision", href: "/about#mission" },
-      { name: "Management Team", href: "/about#management" },
-      { name: "Conservation Efforts", href: "/about#conservation" },
+      { name: "History", href: "/about#history" },
+      { name: "Vision & Mission", href: "/about#vision" },
+      { name: "Core Values", href: "/about#values" },
+      { name: "Mandate", href: "/about#mandate" },
+      { name: "Board of Directors", href: "/about#board" },
+      { name: "Management", href: "/about#management" },
+      { name: "Organization Structure", href: "/about#structure" },
     ]
   },
   {
-    label: "Destinations",
+    label: "Conservation",
     href: "/destinations",
-    bgImage: "/images/dropdown-bg.jpg",
+    bgImage: "/images/dest-1.jpg",
     viewAllHref: "/destinations",
-    viewAllText: "View All 13 Reserves",
-    useDestinations: true
+    viewAllText: "Wildlife Areas",
+    dropdownItems: [
+      {
+        name: "Game Reserves",
+        href: "/destinations",
+        subItems: destinations.slice(0, 8).map(d => ({ name: d.name, href: `/destinations/${d.id}` }))
+      },
+      { name: "Game Controlled Areas", href: "/conservation#gca" },
+      { name: "Wildlife Management Areas", href: "/conservation#wma" },
+      { name: "Ramsar Sites", href: "/conservation#ramsar" },
+      { name: "Historical Sites", href: "/conservation#historical" },
+      { name: "Others", href: "/conservation#others" },
+    ]
   },
   {
-    label: "News",
+    label: "Tourism",
+    href: "/tourism",
+    bgImage: "/images/hero-safari.jpg",
+    viewAllHref: "/tourism",
+    viewAllText: "Tourism Center",
+    dropdownItems: [
+      { name: "Hunting Tourism", href: "/tourism#hunting" },
+      { name: "Photographic Tourism", href: "/tourism#photographic" },
+    ]
+  },
+  {
+    label: "Investments",
+    href: "/investments",
+    bgImage: "/images/dest-1.jpg",
+    viewAllHref: "/investments",
+    viewAllText: "Investment Guide",
+    dropdownItems: [
+      { name: "Investment Opportunities", href: "/investments#opportunities" },
+    ]
+  },
+  {
+    label: "Media Centre",
     href: "/news",
     bgImage: "/images/dest-3.jpg",
     viewAllHref: "/news",
-    viewAllText: "All News & Press",
+    viewAllText: "Media Portal",
     dropdownItems: [
-      { name: "Latest Updates", href: "/news#latest" },
-      { name: "Press Releases", href: "/news#publications" },
-      { name: "Publications", href: "/news#publications" },
-      { name: "Events", href: "/news#events" },
+      { name: "News & Text", href: "/news" },
+      { name: "Pictures Gallery", href: "/gallery" },
+      { name: "Video Gallery", href: "/gallery#videos" },
     ]
   },
   {
-    label: "Gallery",
-    href: "/gallery",
-    bgImage: "/images/dest-4.jpg",
-    viewAllHref: "/gallery",
-    viewAllText: "View Full Gallery",
+    label: "Publication",
+    href: "/publications",
+  },
+  {
+    label: "E-Service",
+    href: "#",
+    bgImage: "/images/dropdown-bg.jpg",
+    viewAllHref: "https://portal.maliasili.go.tz/",
+    viewAllText: "MNRT Portal",
     dropdownItems: [
-      { name: "Wildlife Photography", href: "/gallery#wildlife" },
-      { name: "Landscapes", href: "/gallery#landscapes" },
-      { name: "Video Gallery", href: "/gallery#videos" },
-      { name: "Virtual Tours", href: "/gallery#virtual" },
+      { name: "MNRT Portal", href: "https://portal.maliasili.go.tz/" },
+      { name: "TAWA Webmail", href: "https://mail.tawa.go.tz/" },
+      { name: "Utalii Kiganjani", href: "https://utalii.maliasili.go.tz/" },
     ]
   },
+  {
+    label: "Contact",
+    href: "/#contact",
+  },
+  {
+    label: "Plan Your Visit",
+    href: "/#contact",
+    isCTA: true
+  }
 ];
+
+interface DropdownItem {
+  name: string;
+  href: string;
+  subItems?: { name: string; href: string }[];
+}
 
 interface MenuItem {
   label: string;
   href: string;
   isLocal?: boolean;
+  isCTA?: boolean;
   bgImage?: string;
   viewAllHref?: string;
   viewAllText?: string;
   useDestinations?: boolean;
-  dropdownItems?: { name: string; href: string }[];
+  dropdownItems?: DropdownItem[];
 }
 
 interface NavbarProps {
@@ -148,30 +201,30 @@ const Navbar = ({ customMenuItems }: NavbarProps) => {
           <div className="flex items-center justify-between h-20 w-full gap-4">
             {/* Desktop Menu — perfectly centered using flex-1 */}
             <div className="hidden lg:flex flex-1 items-center justify-center">
-              <div className="flex items-center gap-5 xl:gap-6">
+              <div className="flex items-center gap-3 xl:gap-4 w-full justify-evenly px-2">
                 {currentMenuItems.map((item) => (
                   (item.dropdownItems || item.useDestinations) ? (
                     <div key={item.label} className="relative group">
                       <Link
                         to={item.href}
-                        className={`flex items-center gap-1 relative px-1 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
+                        className={`flex items-center gap-0.5 relative px-0.5 py-1 font-montserrat text-[10px] xl:text-[11px] font-bold uppercase tracking-wider transition-all duration-300
                           ${isScrolled
                             ? "text-foreground hover:text-primary"
                             : "text-white hover:text-yellow-300"
                           }`}
                       >
                         {item.label}
-                        <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
-                        <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-[calc(100%-1.25rem)] transition-all duration-300 rounded-full
+                        <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />
+                        <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-[calc(100%-0.75rem)] transition-all duration-300 rounded-full
                           ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
                       </Link>
 
                       {/* Standardized Dropdown */}
                       <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                        <div className="relative bg-card/95 backdrop-blur-md rounded-2xl shadow-2xl border border-border overflow-hidden p-2">
+                        <div className="relative bg-card/95 backdrop-blur-md rounded-2xl shadow-2xl border border-border p-2">
                           {/* Dynamic Aesthetic Background Image Overlay */}
                           <div
-                            className="absolute inset-0 opacity-[0.4] dark:opacity-[0.2] bg-cover bg-center pointer-events-none"
+                            className="absolute inset-0 opacity-[0.4] dark:opacity-[0.2] bg-cover bg-center rounded-2xl pointer-events-none"
                             style={{ backgroundImage: `url('${item.bgImage}')` }}
                           />
 
@@ -188,24 +241,73 @@ const Navbar = ({ customMenuItems }: NavbarProps) => {
                                 </Link>
                               ))
                               : item.dropdownItems?.map((dropItem, idx) => (
-                                <Link
-                                  key={idx}
-                                  to={dropItem.href}
-                                  className="relative px-4 py-3 text-base font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-xl transition-all flex items-center gap-3 group/link backdrop-blur-md border border-border/50 shadow-sm"
-                                >
-                                  <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
-                                  <span className="drop-shadow-sm">{dropItem.name}</span>
-                                </Link>
+                                <div key={idx} className="relative group/sub">
+                                  {dropItem.subItems ? (
+                                    <>
+                                      <div className="relative px-4 py-3 text-base font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-xl transition-all flex items-center justify-between gap-3 group/link backdrop-blur-md border border-border/50 shadow-sm cursor-default">
+                                        <div className="flex items-center gap-3">
+                                          <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
+                                          <span className="drop-shadow-sm">{dropItem.name}</span>
+                                        </div>
+                                        <ChevronDown className="w-4 h-4 -rotate-90 transition-transform group-hover/sub:rotate-0" />
+                                      </div>
+
+                                      {/* Sub-dropdown Flyout */}
+                                      <div className="absolute left-[calc(100%+0.5rem)] top-0 w-64 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300 z-[60]">
+                                        <div className="bg-card/95 backdrop-blur-md rounded-2xl shadow-2xl border border-border p-2 space-y-1">
+                                          {dropItem.subItems.map((sub, sIdx) => (
+                                            <Link
+                                              key={sIdx}
+                                              to={sub.href}
+                                              className="block px-4 py-2 text-sm font-bold text-foreground hover:text-primary hover:bg-background/80 rounded-lg transition-all"
+                                            >
+                                              {sub.name}
+                                            </Link>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    </>
+                                  ) : dropItem.href.startsWith("http") ? (
+                                    <a
+                                      href={dropItem.href}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="relative px-4 py-3 text-base font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-xl transition-all flex items-center gap-3 group/link backdrop-blur-md border border-border/50 shadow-sm"
+                                    >
+                                      <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
+                                      <span className="drop-shadow-sm">{dropItem.name}</span>
+                                    </a>
+                                  ) : (
+                                    <Link
+                                      to={dropItem.href}
+                                      className="relative px-4 py-3 text-base font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-xl transition-all flex items-center gap-3 group/link backdrop-blur-md border border-border/50 shadow-sm"
+                                    >
+                                      <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
+                                      <span className="drop-shadow-sm">{dropItem.name}</span>
+                                    </Link>
+                                  )}
+                                </div>
                               ))
                             }
                           </div>
                           <div className="relative z-10 mt-2 border-t border-border/50">
-                            <Link
-                              to={item.viewAllHref as string}
-                              className="block px-4 py-3 text-xs font-bold text-primary bg-background/70 hover:bg-background/95 rounded-b-lg text-center uppercase tracking-widest transition-colors backdrop-blur-sm"
-                            >
-                              {item.viewAllText}
-                            </Link>
+                            {item.viewAllHref?.startsWith("http") ? (
+                              <a
+                                href={item.viewAllHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block px-4 py-3 text-xs font-bold text-primary bg-background/70 hover:bg-background/95 rounded-b-lg text-center uppercase tracking-widest transition-colors backdrop-blur-sm"
+                              >
+                                {item.viewAllText}
+                              </a>
+                            ) : (
+                              <Link
+                                to={item.viewAllHref as string}
+                                className="block px-4 py-3 text-xs font-bold text-primary bg-background/70 hover:bg-background/95 rounded-b-lg text-center uppercase tracking-widest transition-colors backdrop-blur-sm"
+                              >
+                                {item.viewAllText}
+                              </Link>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -224,11 +326,23 @@ const Navbar = ({ customMenuItems }: NavbarProps) => {
                       <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-full transition-all duration-300 rounded-full
                         ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
                     </a>
+                  ) : item.isCTA ? (
+                    <Link
+                      key={item.label}
+                      to={item.href}
+                      className={`px-3 py-1.5 rounded-md font-montserrat text-[10px] xl:text-[11px] font-black uppercase tracking-tighter transition-all duration-300 hover:scale-105 shadow-sm
+                        ${isScrolled
+                          ? "gold-gradient text-primary-foreground"
+                          : "bg-white text-primary hover:bg-yellow-300"
+                        }`}
+                    >
+                      {item.label}
+                    </Link>
                   ) : (
                     <Link
                       key={item.label}
                       to={item.href}
-                      className={`relative group px-1 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
+                      className={`relative group px-0.5 py-1 font-montserrat text-[10px] xl:text-[11px] font-bold uppercase tracking-wider transition-all duration-300
                         ${isScrolled
                           ? "text-foreground hover:text-primary"
                           : "text-white hover:text-yellow-300"
@@ -245,73 +359,6 @@ const Navbar = ({ customMenuItems }: NavbarProps) => {
 
             {/* Right side group */}
             <div className="flex items-center justify-end gap-2 lg:gap-3 flex-shrink-0">
-              {/* Contact Link */}
-              <Link
-                to="/#contact"
-                className={`hidden lg:flex relative group px-2 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
-                  ${isScrolled
-                    ? "text-foreground hover:text-primary"
-                    : "text-white hover:text-yellow-300"
-                  }`}
-              >
-                Contact
-                <span className={`absolute left-4 -bottom-0.5 h-[2px] w-0 group-hover:w-[calc(100%-2rem)] transition-all duration-300 rounded-full
-                  ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
-              </Link>
-
-              {/* Additional Professional Links Dropdown */}
-              <div className="hidden lg:relative lg:flex items-center group mr-2">
-                <button
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg font-medium text-xs tracking-wide uppercase transition-all border
-                    ${isScrolled
-                      ? "border-border text-foreground hover:bg-muted"
-                      : "border-white/20 text-white hover:bg-white/10"
-                    }`}
-                >
-                  <LinkIcon className="w-4 h-4" />
-                  <span>Staff Services</span>
-                  <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />
-                </button>
-
-                {/* Dropdown Menu */}
-                <div className="absolute top-full right-0 mt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right p-1 z-50">
-                  <div className="relative bg-card/95 backdrop-blur-md rounded-xl shadow-2xl border border-border overflow-hidden p-2">
-                    {/* Aesthetic Background Image Overlay - Clearer Visibility */}
-                    <div
-                      className="absolute inset-0 opacity-[0.4] dark:opacity-[0.2] bg-cover bg-center pointer-events-none"
-                      style={{ backgroundImage: "url('/images/dest-1.jpg')" }}
-                    />
-
-                    <div className="relative z-10 flex flex-col gap-1">
-                      <a
-                        href="https://portal.maliasili.go.tz/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative px-4 py-2.5 text-sm font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-lg transition-all flex items-center justify-center backdrop-blur-md border border-border/50 shadow-sm group/link"
-                      >
-                        <span className="drop-shadow-sm">TAWA Portal</span>
-                      </a>
-                      <a
-                        href="https://mail.tawa.go.tz/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative px-4 py-2.5 text-sm font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-lg transition-all flex items-center justify-center backdrop-blur-md border border-border/50 shadow-sm group/link"
-                      >
-                        <span className="drop-shadow-sm">Webmail</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Plan Visit CTA */}
-              <Link
-                to="/#contact"
-                className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg gold-gradient text-primary-foreground font-medium text-sm transition-transform hover:scale-105 shadow-lg mr-2"
-              >
-                Plan Your Visit
-              </Link>
-
               {/* Theme Toggle — Far Right */}
               <button
                 onClick={toggleTheme}
@@ -356,6 +403,14 @@ const Navbar = ({ customMenuItems }: NavbarProps) => {
                     >
                       {item.label}
                     </a>
+                  ) : item.isCTA ? (
+                    <Link
+                      to={item.href}
+                      onClick={() => setIsMobileOpen(false)}
+                      className="block px-4 py-3 rounded-xl gold-gradient text-primary-foreground font-black text-center text-lg shadow-lg uppercase tracking-tight"
+                    >
+                      {item.label}
+                    </Link>
                   ) : (
                     <Link
                       to={item.href}
@@ -380,49 +435,72 @@ const Navbar = ({ customMenuItems }: NavbarProps) => {
                           </Link>
                         ))
                         : item.dropdownItems?.map((dropItem, idx) => (
-                          <Link
-                            key={idx}
-                            to={dropItem.href}
-                            onClick={() => setIsMobileOpen(false)}
-                            className="block px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted rounded-md transition-colors"
-                          >
-                            {dropItem.name}
-                          </Link>
+                          <div key={idx} className="space-y-1">
+                            {dropItem.href.startsWith("http") ? (
+                              <a
+                                href={dropItem.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => setIsMobileOpen(false)}
+                                className="block px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted rounded-md transition-colors"
+                              >
+                                {dropItem.name}
+                              </a>
+                            ) : (
+                              <Link
+                                to={dropItem.href}
+                                onClick={() => setIsMobileOpen(false)}
+                                className="block px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted rounded-md transition-colors"
+                              >
+                                {dropItem.name}
+                              </Link>
+                            )}
+
+                            {dropItem.subItems && (
+                              <div className="ml-4 border-l border-border/50 pl-4 py-1 space-y-1">
+                                {dropItem.subItems.map((sub, sIdx) => (
+                                  <Link
+                                    key={sIdx}
+                                    to={sub.href}
+                                    onClick={() => setIsMobileOpen(false)}
+                                    className="block px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-primary transition-colors"
+                                  >
+                                    {sub.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         ))
                       }
-                      <Link
-                        to={item.viewAllHref as string}
-                        onClick={() => setIsMobileOpen(false)}
-                        className="block px-3 py-2 text-xs font-bold text-safari-gold uppercase tracking-widest mt-1"
-                      >
-                        {item.viewAllText} →
-                      </Link>
+                      {item.viewAllHref?.startsWith("http") ? (
+                        <a
+                          href={item.viewAllHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsMobileOpen(false)}
+                          className="block px-3 py-2 text-xs font-bold text-safari-gold uppercase tracking-widest mt-1"
+                        >
+                          {item.viewAllText} →
+                        </a>
+                      ) : (
+                        <Link
+                          to={item.viewAllHref as string}
+                          onClick={() => setIsMobileOpen(false)}
+                          className="block px-3 py-2 text-xs font-bold text-safari-gold uppercase tracking-widest mt-1"
+                        >
+                          {item.viewAllText} →
+                        </Link>
+                      )}
                     </div>
                   )}
                 </div>
               ))}
-
-              <div className="pt-4 border-t border-border mt-4 space-y-3">
-                <Link
-                  to="/#contact"
-                  onClick={() => setIsMobileOpen(false)}
-                  className="block px-4 py-3 rounded-lg border border-border text-foreground font-medium text-center hover:bg-muted transition-colors"
-                >
-                  Contact Us
-                </Link>
-                <Link
-                  to="/#contact"
-                  onClick={() => setIsMobileOpen(false)}
-                  className="block px-4 py-3 rounded-lg gold-gradient text-primary-foreground font-bold text-center shadow-lg"
-                >
-                  Plan Your Visit
-                </Link>
-              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </motion.nav >
   );
 };
 
