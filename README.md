@@ -1,73 +1,49 @@
-# Welcome to your Lovable project
+# Tanzania Wildlife Explorer (TAWA)
 
-## Project info
+Official website of the Tanzania Wildlife Management Authority (TAWA). This platform is designed to showcase Tanzania's wildlife heritage, manage game reserves, and promote sustainable conservation efforts.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Tech Stack
 
-## How can I edit this code?
+- **React** (Frontend)
+- **Vite** (Build Tool)
+- **Tailwind CSS** (Styling)
+- **Framer Motion** (Animations)
+- **Lucide React** (Icons)
+- **React Router** (Navigation)
 
-There are several ways of editing your application.
+## Getting Started
 
-**Use Lovable**
+### Prerequisites
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+- Node.js (Latest LTS version)
+- npm or bun
 
-Changes made via Lovable will be committed automatically to this repo.
+### Installation
 
-**Use your preferred IDE**
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/craxrat-kija/tawa_website.git
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Start the development server:
+   ```sh
+   npm run dev
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Key Features
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- **Interactive Destinations**: Explore 13 game reserves with high-resolution imagery and key statistics.
+- **Media Gallery**: A stunning visual journey through Tanzania's plains and forests.
+- **News & Updates**: Stay informed with the latest conservation press releases and events.
+- **Organizational Structure**: Detailed view of TAWA's management team and hierarchy.
+- **Dark Mode Support**: Deeply integrated dark theme for a premium visual experience.
 
-Follow these steps:
+## Conservation Mission
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Tanzania Wildlife Management Authority (TAWA) is an autonomous public institution under the Ministry of Natural Resources and Tourism. It is responsible for the management and conservation of wildlife resources in Game Reserves, Game Controlled Areas, and all wildlife outside National Parks and Ngorongoro Conservation Area.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+© 2026 Tanzania Wildlife Management Authority. All rights reserved.
