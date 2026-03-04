@@ -122,5 +122,70 @@ export const destinations = [
             "https://images.unsplash.com/photo-1577464332911-3de78ba70b4c?auto=format&fit=crop&w=800&q=80"
         ],
         news: []
+    },
+    {
+        id: "muhesi",
+        name: "Muhesi Game Reserve",
+        image: "https://images.unsplash.com/photo-1582207968994-e35cfa32e6ab?auto=format&fit=crop&w=1600&q=80",
+        area: "2,000 km²",
+        highlight: "Exclusive Safari",
+        description: "Part of the greater Ruaha ecosystem, Muhesi is known for its exclusivity and low tourist volumes, providing a truly wild and private safari experience.",
+        aboutContent: "Muhesi offers one of the most private safari experiences in East Africa. It is a critical corridor for predators including lions and leopards. Visitors here can enjoy untamed landscapes that feel like Africa a century ago, with almost no other vehicles in sight.",
+        attractions: ["Private Safaris", "Large Predators", "Untouched Landscapes"],
+        tours: ["Exclusive Predator Patrol", "Mobile Fly-Camping", "Night Sky Observation"],
+        gallery: ["https://images.unsplash.com/photo-1582207968994-e35cfa32e6ab?auto=format&fit=crop&w=800&q=80"],
+        news: []
+    },
+    {
+        id: "kigosi",
+        name: "Kigosi Game Reserve",
+        image: "https://images.unsplash.com/photo-1510344473855-46f90dcfc43a?auto=format&fit=crop&w=1600&q=80",
+        area: "7,460 km²",
+        highlight: "Floodplains",
+        description: "Kigosi features extensive floodplains and swamp forests. It is renowned for its large wetland areas and populations of water-loving species.",
+        aboutContent: "The Kigosi Game Reserve is a massive wetland paradise. Its complex ecosystem of floodplains and swamp forests is home to many rare water-loving animals. During the rainy season, the area transforms into a vast internal delta, attracting incredible numbers of migratory birds.",
+        attractions: ["Wetland Birds", "Swamp Excursions", "Fishing", "Situtunga"],
+        tours: ["Airboat Swamp Tour", "Fishing Expedition", "Wetland Birding Walk"],
+        gallery: ["https://images.unsplash.com/photo-1510344473855-46f90dcfc43a?auto=format&fit=crop&w=800&q=80"],
+        news: []
+    },
+    {
+        id: "ugalla-river",
+        name: "Ugalla River Reserve",
+        image: "https://images.unsplash.com/photo-1621217643577-789a50cd3ff3?auto=format&fit=crop&w=1600&q=80",
+        area: "5,000 km²",
+        highlight: "Slow Flowing Rivers",
+        description: "The Ugalla River is a broad, slow-flowing river of seasonal swamps. The river is the lifeblood of the reserve, attracting vast herds of wildlife during the dry season.",
+        aboutContent: "The Ugalla River is a seasonal sanctuary. During the dry months, the river dries into a series of large pools which become magnets for thousands of animals. It's famous for its giant crocodiles and large herds of elephants that congregate along the river banks.",
+        attractions: ["River Safaris", "Crocodiles", "Hippo Pools", "Sable Antelope"],
+        tours: ["River Pool Safari", "Crocodile Observation", "Elephant Sand River Walk"],
+        gallery: ["https://images.unsplash.com/photo-1621217643577-789a50cd3ff3?auto=format&fit=crop&w=800&q=80"],
+        news: []
+    },
+    {
+        id: "mkungunero",
+        name: "Mkungunero Reserve",
+        image: "https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=1600&q=80",
+        area: "800 km²",
+        highlight: "Tarangire Ecosystem",
+        description: "A crucial part of the Tarangire-Manyara ecosystem, serving as an important dry season refuge and migratory corridor for enormous herds of elephants and other herbivores.",
+        aboutContent: "Mkungunero is a vital link in the northern circuit. Its proximity to Tarangire ensures that it sees massive movement of elephants. The reserve is characterized by ancient baobab trees and rocky hills, providing stunning vistas of the surrounding plains.",
+        attractions: ["Elephant Migration", "Baobab Trees", "Large Herds", "Bird Diversity"],
+        tours: ["Baobab Valley Hike", "Migration Photography", "Savanna Sunset Drive"],
+        gallery: ["https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?auto=format&fit=crop&w=800&q=80"],
+        news: []
+    },
+    {
+        id: "uwanda",
+        name: "Uwanda Game Reserve",
+        image: "https://images.unsplash.com/photo-1549643194-e90fa2cde3fd?auto=format&fit=crop&w=1600&q=80",
+        area: "5,000 km²",
+        highlight: "Lake Rukwa",
+        description: "Located on the shores of Lake Rukwa in southwestern Tanzania, Uwanda is unique for its large population of the endemic puku antelope and massive crocodile numbers.",
+        aboutContent: "Uwanda is a remote lakeshore paradise. The combination of Lake Rukwa's alkaline waters and the surrounding grasslands creates a unique microclimate. It's one of the few places to see the rare puku antelope and witness one of the highest concentrations of crocodiles in Africa.",
+        attractions: ["Lake Rukwa Views", "Puku Antelope", "Crocodiles", "Waterbirds"],
+        tours: ["Lakeshore Safari", "Rukwa Boat Tour", "Puku Tracking Hike"],
+        gallery: ["https://images.unsplash.com/photo-1549643194-e90fa2cde3fd?auto=format&fit=crop&w=800&q=80"],
+        news: []
     }
 ];

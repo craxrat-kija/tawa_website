@@ -2,7 +2,8 @@ import { useParams, Link } from "react-router-dom";
 import { destinations } from "../data/destinations";
 import {
     ArrowLeft, MapPin, Expand, Star, ShieldAlert,
-    Info, Image as ImageIcon, Newspaper, Phone, Compass, Calendar, CheckCircle2
+    Info, Image as ImageIcon, Newspaper, Phone, Compass, Calendar, CheckCircle2,
+    ArrowRight
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
