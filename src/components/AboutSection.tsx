@@ -36,8 +36,8 @@ const AboutSection = () => {
               Guardians of Tanzania's <span className="text-safari-gold italic">Wild Legacy</span>
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              The Tanzania Wildlife Management Authority (TAWA) is entrusted with the management and conservation of 
-              wildlife resources outside national parks. We oversee game reserves, game controlled areas, and 
+              The Tanzania Wildlife Management Authority (TAWA) is entrusted with the management and conservation of
+              wildlife resources outside national parks. We oversee game reserves, game controlled areas, and
               wildlife management areas — protecting one of Africa's greatest natural treasures.
             </p>
 

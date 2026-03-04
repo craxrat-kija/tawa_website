@@ -27,18 +27,19 @@ const DestinationDetail = () => {
         );
     }
 
-    const sections = [
-        { id: "about", label: "About", icon: Info },
-        { id: "gallery", label: "Gallery", icon: ImageIcon },
-        { id: "news", label: "News", icon: Newspaper },
-        { id: "tours", label: "Tours", icon: Compass },
-        { id: "contact", label: "Contact", icon: Phone },
-        { id: "book", label: "Book", icon: Calendar },
+    const destinationMenuItems = [
+        { label: "Main Site", href: "/", isLocal: false },
+        { label: "About", href: `#/destinations/${id}#about`, isLocal: true },
+        { label: "Gallery", href: `#/destinations/${id}#gallery`, isLocal: true },
+        { label: "News", href: `#/destinations/${id}#news`, isLocal: true },
+        { label: "Tours", href: `#/destinations/${id}#tours`, isLocal: true },
+        { label: "Contact", href: `#/destinations/${id}#contact`, isLocal: true },
+        { label: "Book", href: `#/destinations/${id}#book`, isLocal: true },
     ];
 
     return (
         <div className="min-h-screen bg-background flex flex-col pt-32 md:pt-[180px] lg:pt-[220px]">
-            <Navbar />
+            <Navbar customMenuItems={destinationMenuItems} />
 
             {/* Hero Header */}
             <div className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
@@ -71,21 +72,6 @@ const DestinationDetail = () => {
                 </div>
             </div>
 
-            {/* Anchor Navigation */}
-            <div className="sticky top-20 z-40 bg-card/80 backdrop-blur-md border-b border-border py-4 shadow-sm hidden md:block">
-                <div className="max-w-7xl mx-auto px-4 flex justify-center gap-8 lg:gap-12">
-                    {sections.map((sec) => (
-                        <a
-                            key={sec.id}
-                            href={`#${sec.id}`}
-                            className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors"
-                        >
-                            <sec.icon className="w-4 h-4" />
-                            {sec.label}
-                        </a>
-                    ))}
-                </div>
-            </div>
 
             {/* Main Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

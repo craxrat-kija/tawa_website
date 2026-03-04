@@ -55,8 +55,24 @@ const menuItems = [
   },
 ];
 
-const Navbar = () => {
+interface MenuItem {
+  label: string;
+  href: string;
+  isLocal?: boolean;
+  bgImage?: string;
+  viewAllHref?: string;
+  viewAllText?: string;
+  useDestinations?: boolean;
+  dropdownItems?: { name: string; href: string }[];
+}
+
+interface NavbarProps {
+  customMenuItems?: MenuItem[];
+}
+
+const Navbar = ({ customMenuItems }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const currentMenuItems = customMenuItems || menuItems;
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => {
     return document.documentElement.classList.contains("dark") ||
@@ -99,28 +115,28 @@ const Navbar = () => {
       <div className={`bg-[#5F7F2E] text-white py-5 border-b border-white/5 transition-all duration-500 hidden md:block ${isScrolled ? "opacity-0 h-0 overflow-hidden py-0" : "opacity-100 h-auto"
         }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div className="flex items-center gap-3 pr-8 lg:pr-16">
+          <Link to="/" className="flex items-center gap-3 pr-8 lg:pr-16 hover:opacity-80 transition-opacity">
             <img
               src="/coat_of_arms_transparent.png"
               alt="Tanzania Coat of Arms"
               className="h-20 lg:h-28 w-auto object-contain"
             />
-          </div>
-          <div className="flex-1 text-center font-montserrat space-y-2">
+          </Link>
+          <Link to="/" className="flex-1 text-center font-montserrat space-y-2 hover:opacity-80 transition-opacity">
             <h1 className="text-sm sm:text-base lg:text-xl font-bold tracking-[0.2em] sm:tracking-[0.4em] text-yellow-300 uppercase">
               The United Republic of Tanzania
             </h1>
             <h2 className="text-base sm:text-2xl lg:text-3xl font-black tracking-tight text-white uppercase">
               Tanzania Wildlife Management Authority (TAWA)
             </h2>
-          </div>
-          <div className="flex items-center justify-end pl-8 lg:pl-16">
+          </Link>
+          <Link to="/" className="flex items-center justify-end pl-8 lg:pl-16 hover:opacity-80 transition-opacity">
             <img
               src="/tawa_logo_transparent.png"
               alt="TAWA Logo"
               className="h-20 lg:h-28 w-auto object-contain"
             />
-          </div>
+          </Link>
         </div>
       </div>
 
@@ -133,7 +149,7 @@ const Navbar = () => {
             {/* Desktop Menu — perfectly centered using flex-1 */}
             <div className="hidden lg:flex flex-1 items-center justify-center">
               <div className="flex items-center gap-5 xl:gap-6">
-                {menuItems.map((item) => (
+                {currentMenuItems.map((item) => (
                   (item.dropdownItems || item.useDestinations) ? (
                     <div key={item.label} className="relative group">
                       <Link
@@ -194,6 +210,20 @@ const Navbar = () => {
                         </div>
                       </div>
                     </div>
+                  ) : item.isLocal ? (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      className={`relative group px-1 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
+                        ${isScrolled
+                          ? "text-foreground hover:text-primary"
+                          : "text-white hover:text-yellow-300"
+                        }`}
+                    >
+                      {item.label}
+                      <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-full transition-all duration-300 rounded-full
+                        ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
+                    </a>
                   ) : (
                     <Link
                       key={item.label}
@@ -316,15 +346,25 @@ const Navbar = () => {
             className="lg:hidden bg-background/98 backdrop-blur-xl border-t border-border overflow-y-auto max-h-[85vh]"
           >
             <div className="px-4 py-6 space-y-4">
-              {menuItems.map((item) => (
+              {currentMenuItems.map((item) => (
                 <div key={item.label} className="space-y-2">
-                  <Link
-                    to={item.href}
-                    onClick={() => setIsMobileOpen(false)}
-                    className="block px-4 py-2 rounded-lg text-primary font-bold text-lg border-l-4 border-safari-gold bg-safari-gold/5 transition-colors"
-                  >
-                    {item.label}
-                  </Link>
+                  {item.isLocal ? (
+                    <a
+                      href={item.href}
+                      onClick={() => setIsMobileOpen(false)}
+                      className="block px-4 py-2 rounded-lg text-primary font-bold text-lg border-l-4 border-safari-gold bg-safari-gold/5 transition-colors"
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={item.href}
+                      onClick={() => setIsMobileOpen(false)}
+                      className="block px-4 py-2 rounded-lg text-primary font-bold text-lg border-l-4 border-safari-gold bg-safari-gold/5 transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  )}
 
                   {(item.dropdownItems || item.useDestinations) && (
                     <div className="grid grid-cols-1 gap-1 ml-4 border-l border-border pl-4">
