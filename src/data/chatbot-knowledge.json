@@ -1,0 +1,50 @@
+{
+    "system_info": {
+        "name": "Tanzania Wildlife Management Authority (TAWA)",
+        "tagline": "Guardians of Tanzania's Wild Legacy",
+        "mission": "To conserve and sustainably manage wildlife resources in Game Reserves, Game Controlled Areas, and wildlife corridors through effective partnerships, anti-poaching operations, and community engagement.",
+        "vision": "To become a leading institution in the sustainable management of wildlife resources for the benefit of present and future generations of Tanzanians and the global community.",
+        "history": "Established in 2014 as an autonomous public institution under the Ministry of Natural Resources and Tourism. It took over the responsibilities of the Wildlife Division regarding the management of wildlife resources outside National Parks and Ngorongoro Conservation Area.",
+        "contact": {
+            "address": "Mpingo House, Nyerere Road, Dodoma, Tanzania",
+            "phone": "+255 26 232 1504",
+            "email": "info@tawa.go.tz",
+            "website": "www.tawa.go.tz"
+        },
+        "statistics": {
+            "game_reserves_count": 13,
+            "total_area": "100,000+ km²",
+            "wildlife_species": "500+",
+            "annual_visitors": "250,000+"
+        },
+        "game_reserves": [
+            "Selous Game Reserve",
+            "Rungwa Game Reserve",
+            "Kizigo Game Reserve",
+            "Muhesi Game Reserve",
+            "Moyowosi Game Reserve",
+            "Kigosi Game Reserve",
+            "Ugalla Game Reserve",
+            "Ikorongo Game Reserve",
+            "Grumeti Game Reserve",
+            "Maswa Game Reserve",
+            "Mkungunero Game Reserve",
+            "Liparamba Game Reserve",
+            "Lukwika-Lumesule Game Reserve"
+        ],
+        "services": [
+            {
+                "name": "Tourism Permits",
+                "detail": "Apply through the MNRT Online Portal for all wildlife viewing activities."
+            },
+            {
+                "name": "Investment",
+                "detail": "Eco-Lodge development and sustainable partnership opportunities in game reserves."
+            },
+            {
+                "name": "Anti-Poaching",
+                "detail": "24/7 paramilitary surveillance and intelligence operations to protect wildlife."
+            }
+        ]
+    }
+}

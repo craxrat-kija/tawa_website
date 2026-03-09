@@ -16,6 +16,7 @@ import Publications from "./pages/Publications";
 import Conservation from "./pages/Conservation";
 
 import ScrollToTopWrapper from "./components/ScrollToTopWrapper";
+import Chatbot from "./components/Chatbot";
 
 const queryClient = new QueryClient();
 
@@ -41,9 +42,11 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ScrollToTopWrapper>
+        <Chatbot />
       </HashRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );
+
 
 export default App;
