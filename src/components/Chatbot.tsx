@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Command, Search, Globe, Shield, HelpCircle, Loader2 } from 'lucide-react';
 import chatbotKnowledge from '../data/chatbot-knowledge.json';
 import { destinations } from '../data/destinations';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
 // Initialize AI Engines (User can provide keys in .env)
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
+const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
 interface Message {
     role: 'user' | 'assistant';
@@ -87,25 +87,34 @@ const Chatbot: React.FC = () => {
             return { role: 'assistant', content: "Our 2026 activity logs show increased anti-poaching success in Selous and a major equipment handover to Serengeti districts. We are also celebrating World Wildlife Day in Arusha with new community outreach programs." };
         }
 
-        // --- 8. EXTERNAL FETCH FALLBACK (Live AI Source) ---
-        if (genAI) {
+        // --- 8. DYNAMIC EXTERNAL FETCH (Gemini 3 Flash Pro) ---
+        if (GEMINI_API_KEY) {
             setIsSearching(true);
             try {
-                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-                const context = `You are the official TAWA Assistant. Use the following context about Tanzania Wildlife Management Authority: ${JSON.stringify(info)}. Answer the user question accurately. If you don't know based on context, use your general knowledge but keep it relevant to Tanzania. User query: ${query}`;
+                const context = `You are the official TAWA Assistant. 
+                Context about TAWA: ${JSON.stringify(info)}. 
+                Destinations info: ${JSON.stringify(destinations)}.
+                Answer the user question dynamically and accurately. 
+                If the query is unrelated to TAWA, answer as a helpful AI assistant.
+                Format responses in clean Markdown.`;
 
-                const result = await model.generateContent(context);
-                const response = await result.response;
+                const response = await ai.models.generateContent({
+                    model: "gemini-3-flash-preview",
+                    contents: context + "\n\nUser Query: " + query,
+                });
+
                 setIsSearching(false);
-                return { role: 'assistant', content: response.text(), isExternal: true };
+                return { role: 'assistant', content: response.text, isExternal: true };
             } catch (error) {
-                console.error("External Fetch Error:", error);
+                console.error("Gemini SDK Error:", error);
                 setIsSearching(false);
+                // Final fallback if Gemini fails
+                return { role: 'assistant', content: "I'm having trouble connecting to my brain right now. Please try again or ask about Selous!" };
             }
         }
 
-        // 9. Default Fallback
-        return { role: 'assistant', content: `I'm listening! I can help you with travel info for **Selous**, details about our **Mission**, **Statistics**, or our **Contact Info**. \n\nWhat would you like to know more about?` };
+        // 9. Default Fallback (If no API Key)
+        return { role: 'assistant', content: "I'm listening in Offline Mode. To enable full dynamic features, please add your Gemini API Key. \n\nI can still help you with travel info for **Selous**, details about our **Mission**, **Statistics**, or our **Contact Info**." };
     };
 
     const handleSend = async (text?: string) => {
