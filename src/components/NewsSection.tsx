@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Calendar, ArrowRight } from "lucide-react";
+import { useLatestNews } from "../hooks/useApi";
 
 const newsItems = [
   {
@@ -26,6 +27,19 @@ const newsItems = [
 ];
 
 const NewsSection = () => {
+  const { data: apiNews, loading } = useLatestNews();
+
+  // Mapping API data to match the UI structure, with fallback to static data
+  const itemsToDisplay = (apiNews && apiNews.length > 0)
+    ? apiNews.map(item => ({
+      category: item.destination?.name || "TAWA News",
+      title: item.title,
+      excerpt: item.content.replace(/<[^>]*>?/gm, '').substring(0, 100) + "...",
+      date: new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      image: item.image || "/images/dest-1.jpg",
+    }))
+    : newsItems;
+
   return (
     <section id="news" className="section-padding bg-background">
       <div className="max-w-7xl mx-auto">

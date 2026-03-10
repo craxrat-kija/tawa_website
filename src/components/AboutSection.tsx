@@ -1,7 +1,17 @@
 import { motion } from "framer-motion";
 import { Leaf, Shield, MapPin } from "lucide-react";
 
-const AboutSection = () => {
+interface AboutSectionProps {
+  title?: string;
+  content?: string;
+  image?: string;
+}
+
+const AboutSection = ({ title, content, image }: AboutSectionProps) => {
+  const displayTitle = title || "Guardians of Tanzania's Wild Legacy";
+  const displayContent = content || "The Tanzania Wildlife Management Authority (TAWA) is entrusted with the management and conservation of wildlife resources outside national parks. We oversee game reserves, game controlled areas, and wildlife management areas — protecting one of Africa's greatest natural treasures.";
+  const displayImage = image ? (image.startsWith('http') ? image : `http://localhost:8000/storage/${image}`) : "/images/dest-2.jpg";
+
   const features = [
     {
       icon: Shield,
@@ -33,13 +43,14 @@ const AboutSection = () => {
           >
             <span className="text-safari-gold font-medium text-sm uppercase tracking-widest">About TAWA</span>
             <h2 className="section-title text-foreground mt-3 mb-6">
-              Guardians of Tanzania's <span className="text-safari-gold italic">Wild Legacy</span>
+              {displayTitle.includes('Wild Legacy') ? (
+                <>Guardians of Tanzania's <span className="text-safari-gold italic">Wild Legacy</span></>
+              ) : displayTitle}
             </h2>
-            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              The Tanzania Wildlife Management Authority (TAWA) is entrusted with the management and conservation of
-              wildlife resources outside national parks. We oversee game reserves, game controlled areas, and
-              wildlife management areas — protecting one of Africa's greatest natural treasures.
-            </p>
+            <div
+              className="text-muted-foreground text-lg leading-relaxed mb-8 prose dark:prose-invert max-w-none"
+              dangerouslySetInnerHTML={{ __html: displayContent }}
+            />
 
             <div className="space-y-6">
               {features.map((f, i) => (
@@ -72,21 +83,21 @@ const AboutSection = () => {
             className="grid grid-cols-2 gap-4"
           >
             <img
-              src="/images/dest-2.jpg"
-              alt="Lion overlooking savanna"
-              className="rounded-2xl w-full h-64 object-cover"
+              src={displayImage}
+              alt="Wildlife scene"
+              className="rounded-2xl w-full h-64 object-cover col-span-2"
               loading="lazy"
             />
             <img
               src="/images/dest-3.jpg"
               alt="Elephants at waterhole"
-              className="rounded-2xl w-full h-64 object-cover mt-8"
+              className="rounded-2xl w-full h-64 object-cover"
               loading="lazy"
             />
             <img
               src="/images/dest-4.jpg"
               alt="Giraffes with Kilimanjaro"
-              className="rounded-2xl w-full h-64 object-cover col-span-2"
+              className="rounded-2xl w-full h-64 object-cover"
               loading="lazy"
             />
           </motion.div>

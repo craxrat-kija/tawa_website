@@ -11,11 +11,36 @@ const galleryImages = [
   { src: "/images/dest-6.jpg", alt: "Wildebeest migration", category: "Migration" },
 ];
 
-const GallerySection = () => {
+interface GalleryImage {
+  src: string;
+  alt?: string;
+  category?: string;
+}
+
+interface GallerySectionProps {
+  title?: string;
+  images?: GalleryImage[];
+}
+
+const GallerySection = ({ title, images }: GallerySectionProps) => {
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const displayTitle = title || "Captured Moments";
+  const displayImages = images || [
+    { src: "/images/dest-1.jpg", alt: "Aerial view of game reserve", category: "Landscape" },
+    { src: "/images/dest-2.jpg", alt: "Lion at sunset", category: "Wildlife" },
+    { src: "/images/dest-3.jpg", alt: "Elephants at waterhole", category: "Wildlife" },
+    { src: "/images/dest-4.jpg", alt: "Giraffes with Kilimanjaro", category: "Landscape" },
+    { src: "/images/dest-5.jpg", alt: "Hippos in river", category: "Wildlife" },
+    { src: "/images/dest-6.jpg", alt: "Wildebeest migration", category: "Migration" },
+  ];
+
+  const getImageUrl = (src: string) => {
+    if (src.startsWith('http') || src.startsWith('/')) return src;
+    return `http://localhost:8000/storage/${src}`;
+  };
 
   return (
-    <section id="gallery" className="section-padding bg-safari-sand">
+    <section id="gallery" className="section-padding bg-safari-sand text-foreground">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -25,7 +50,9 @@ const GallerySection = () => {
         >
           <span className="text-safari-gold font-medium text-sm uppercase tracking-widest">Gallery</span>
           <h2 className="section-title text-foreground mt-3 mb-4">
-            Captured <span className="text-safari-gold italic">Moments</span>
+            {displayTitle.includes('Moments') ? (
+              <>Captured <span className="text-safari-gold italic">Moments</span></>
+            ) : displayTitle}
           </h2>
           <p className="section-subtitle mx-auto">
             Stunning photography from Tanzania's most breathtaking game reserves.
@@ -34,7 +61,7 @@ const GallerySection = () => {
 
         {/* Masonry grid */}
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-          {galleryImages.map((img, i) => (
+          {displayImages.map((img, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -45,7 +72,7 @@ const GallerySection = () => {
               onClick={() => setLightbox(i)}
             >
               <img
-                src={img.src}
+                src={getImageUrl(img.src)}
                 alt={img.alt}
                 className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
@@ -62,13 +89,13 @@ const GallerySection = () => {
 
       {/* Lightbox */}
       {lightbox !== null && (
-        <div className="fixed inset-0 z-50 bg-foreground/90 flex items-center justify-center p-4" onClick={() => setLightbox(null)}>
+        <div className="fixed inset-0 z-[100] bg-foreground/95 flex items-center justify-center p-4" onClick={() => setLightbox(null)}>
           <button className="absolute top-6 right-6 text-primary-foreground" onClick={() => setLightbox(null)}>
             <X className="w-8 h-8" />
           </button>
           <img
-            src={galleryImages[lightbox].src}
-            alt={galleryImages[lightbox].alt}
+            src={getImageUrl(displayImages[lightbox].src)}
+            alt={displayImages[lightbox].alt}
             className="max-w-full max-h-[85vh] object-contain rounded-lg"
           />
         </div>

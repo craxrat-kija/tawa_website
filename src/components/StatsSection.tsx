@@ -44,7 +44,25 @@ function AnimatedCounter({ target, suffix, prefix }: { target: number; suffix: s
   );
 }
 
-const StatsSection = () => {
+interface StatsItem {
+  label: string;
+  value: string | number;
+  suffix?: string;
+  prefix?: string;
+}
+
+interface StatsSectionProps {
+  items?: StatsItem[];
+}
+
+const StatsSection = ({ items }: StatsSectionProps) => {
+  const displayItems = items || [
+    { label: "Game Reserves", value: 13, suffix: "", prefix: "" },
+    { label: "Square Kilometers", value: 100, suffix: "K+", prefix: "" },
+    { label: "Wildlife Species", value: 500, suffix: "+", prefix: "" },
+    { label: "Annual Visitors", value: 250, suffix: "K", prefix: "" },
+  ];
+
   return (
     <section className="py-20 safari-gradient relative overflow-hidden">
       {/* Decorative pattern */}
@@ -55,7 +73,7 @@ const StatsSection = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-          {stats.map((stat, i) => (
+          {displayItems.map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
@@ -64,8 +82,8 @@ const StatsSection = () => {
               transition={{ delay: i * 0.15 }}
               className="text-center"
             >
-              <stat.icon className="w-8 h-8 text-safari-gold-light mx-auto mb-4" />
-              <AnimatedCounter target={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
+              <Binoculars className="w-8 h-8 text-safari-gold-light mx-auto mb-4" />
+              <AnimatedCounter target={Number(stat.value)} suffix={stat.suffix || ""} prefix={stat.prefix || ""} />
               <p className="text-primary-foreground/70 font-medium text-sm mt-2">{stat.label}</p>
             </motion.div>
           ))}

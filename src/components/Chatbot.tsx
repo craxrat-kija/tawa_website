@@ -3,13 +3,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Command, Search, Globe, Shield, HelpCircle, Loader2 } from 'lucide-react';
 import chatbotKnowledge from '../data/chatbot-knowledge.json';
 import { destinations } from '../data/destinations';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 // Initialize AI Engines (User can provide keys in .env)
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
+
+// Log API key status
+if (typeof window !== 'undefined') {
+    if (GEMINI_API_KEY) {
+        console.log('✅ Gemini API Key loaded:', GEMINI_API_KEY.substring(0, 20) + '...');
+    } else {
+        console.warn('⚠️  No Gemini API Key found. Chatbot will use offline mode.');
+    }
+}
+
+// Track if API has failed to prevent repeated attempts
+let apiHasFailed = false;
 
 interface Message {
     role: 'user' | 'assistant';
@@ -89,8 +101,8 @@ const Chatbot: React.FC = () => {
             return { role: 'assistant', content: "Our 2026 activity logs show increased anti-poaching success in Selous and a major equipment handover to Serengeti districts. We are also celebrating World Wildlife Day in Arusha with new community outreach programs." };
         }
 
-        // --- 8. DYNAMIC EXTERNAL FETCH ---
-        if (GEMINI_API_KEY) {
+        // --- 8. DYNAMIC EXTERNAL FETCH (SKIPPED IF API FAILED) ---
+        if (genAI && !apiHasFailed) {
             setIsSearching(true);
             try {
                 const context = `You are the official TAWA Assistant. 
@@ -102,39 +114,53 @@ const Chatbot: React.FC = () => {
                 If the query is unrelated to TAWA, answer as a helpful AI assistant.
                 Format responses in clean Markdown.`;
 
-                let response;
+                let result;
                 try {
-                    response = await ai.models.generateContent({
-                        model: "gemini-2.5-flash",
-                        contents: context + "\n\nUser Query: " + query,
-                    });
+                    console.log('🔄 Attempting gemini-1.5-flash...');
+                    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+                    result = await model.generateContent(context + "\n\nUser Query: " + query);
+                    console.log('✅ gemini-1.5-flash succeeded');
                 } catch (fallbackError) {
-                    console.log("gemini-2.5-flash failed, trying gemini-2.0-flash...");
-                    response = await ai.models.generateContent({
-                        model: "gemini-2.0-flash",
-                        contents: context + "\n\nUser Query: " + query,
-                    });
+                    console.warn("gemini-1.5-flash failed, trying gemini-1.5-pro...");
+                    try {
+                        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+                        result = await model.generateContent(context + "\n\nUser Query: " + query);
+                        console.log('✅ gemini-1.5-pro succeeded');
+                    } catch (secondFallback) {
+                        console.warn("gemini-1.5-pro failed, trying gemini-2.0-flash...");
+                        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+                        result = await model.generateContent(context + "\n\nUser Query: " + query);
+                        console.log('✅ gemini-2.0-flash succeeded');
+                    }
                 }
 
+                const response = await result.response;
+                const text = response.text();
+
                 setIsSearching(false);
-                return { role: 'assistant', content: response.text || "I was unable to find an answer for that.", isExternal: true };
+                return { role: 'assistant', content: text || "I was unable to find an answer for that.", isExternal: true };
             } catch (error) {
                 console.error("Gemini SDK Error:", error);
                 setIsSearching(false);
 
-                let errorMessage = "I'm having trouble connecting to my brain right now. Please try again or ask about Selous!";
+                // Mark API as failed to prevent further attempts
+                apiHasFailed = true;
+
+                let errorMessage = "I'm having trouble with my AI brain right now. Let me help you with knowledge from my local database instead.\n\nI can tell you about TAWA, our reserves, statistics, and more!";
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const err = error as any;
                 if (err?.status === 403 || err?.message?.includes("leaked") || String(error).includes("403")) {
-                    errorMessage = "⚠️ **API Error:** Your current Gemini API Key was rejected (it may be expired, invalid, or flagged as leaked by Google). Please update `VITE_GEMINI_API_KEY` in your `.env` file with a valid key.";
+                    errorMessage = "⚠️ **API Error:** The Gemini API key appears to be invalid or has been flagged. I'm switching to offline mode. I can still help you with destination info and TAWA details!";
+                } else if (String(error).includes("404") || String(error).includes("not found")) {
+                    errorMessage = "⚠️ **Model Error:** The AI models aren't available right now. Switching to offline mode. Ask me about our reserves, mission, or contact info!";
                 }
 
                 return { role: 'assistant', content: errorMessage };
             }
         }
 
-        // 9. Default Fallback (If no API Key)
-        return { role: 'assistant', content: "I'm listening in Offline Mode. To enable full dynamic features, please add your Gemini API Key. \n\nI can still help you with travel info for **Selous**, details about our **Mission**, **Statistics**, or our **Contact Info**." };
+        // 9. Default Fallback (Offline Mode or No API Key)
+        return { role: 'assistant', content: "I'm running in **Offline Mode**. I can still help you with:\n\n✓ Game reserve information\n✓ TAWA statistics and mission\n✓ Contact information\n✓ Services overview\n\nTry asking: *'Tell me about Selous'*, *'What is TAWA's mission?'*, or *'Contact information'*" };
     };
 
     const handleSend = async (text?: string) => {
