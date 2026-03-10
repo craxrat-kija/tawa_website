@@ -4,6 +4,8 @@ import { MessageCircle, X, Send, Command, Search, Globe, Shield, HelpCircle, Loa
 import chatbotKnowledge from '../data/chatbot-knowledge.json';
 import { destinations } from '../data/destinations';
 import { GoogleGenAI } from '@google/genai';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 // Initialize AI Engines (User can provide keys in .env)
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
@@ -87,29 +89,47 @@ const Chatbot: React.FC = () => {
             return { role: 'assistant', content: "Our 2026 activity logs show increased anti-poaching success in Selous and a major equipment handover to Serengeti districts. We are also celebrating World Wildlife Day in Arusha with new community outreach programs." };
         }
 
-        // --- 8. DYNAMIC EXTERNAL FETCH (Gemini 3 Flash Pro) ---
+        // --- 8. DYNAMIC EXTERNAL FETCH ---
         if (GEMINI_API_KEY) {
             setIsSearching(true);
             try {
                 const context = `You are the official TAWA Assistant. 
                 Context about TAWA: ${JSON.stringify(info)}. 
                 Destinations info: ${JSON.stringify(destinations)}.
-                Answer the user question dynamically and accurately. 
+                IMPORTANT: First, base your answer on the provided context above (the site data).
+                Then, enrich and add some additional factual information from your external knowledge to provide a more comprehensive answer.
+                If the answer is NOT available in the context, then you may rely entirely on your external knowledge to answer. 
                 If the query is unrelated to TAWA, answer as a helpful AI assistant.
                 Format responses in clean Markdown.`;
 
-                const response = await ai.models.generateContent({
-                    model: "gemini-3-flash-preview",
-                    contents: context + "\n\nUser Query: " + query,
-                });
+                let response;
+                try {
+                    response = await ai.models.generateContent({
+                        model: "gemini-2.5-flash",
+                        contents: context + "\n\nUser Query: " + query,
+                    });
+                } catch (fallbackError) {
+                    console.log("gemini-2.5-flash failed, trying gemini-2.0-flash...");
+                    response = await ai.models.generateContent({
+                        model: "gemini-2.0-flash",
+                        contents: context + "\n\nUser Query: " + query,
+                    });
+                }
 
                 setIsSearching(false);
-                return { role: 'assistant', content: response.text, isExternal: true };
+                return { role: 'assistant', content: response.text || "I was unable to find an answer for that.", isExternal: true };
             } catch (error) {
                 console.error("Gemini SDK Error:", error);
                 setIsSearching(false);
-                // Final fallback if Gemini fails
-                return { role: 'assistant', content: "I'm having trouble connecting to my brain right now. Please try again or ask about Selous!" };
+
+                let errorMessage = "I'm having trouble connecting to my brain right now. Please try again or ask about Selous!";
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const err = error as any;
+                if (err?.status === 403 || err?.message?.includes("leaked") || String(error).includes("403")) {
+                    errorMessage = "⚠️ **API Error:** Your current Gemini API Key was rejected (it may be expired, invalid, or flagged as leaked by Google). Please update `VITE_GEMINI_API_KEY` in your `.env` file with a valid key.";
+                }
+
+                return { role: 'assistant', content: errorMessage };
             }
         }
 
@@ -180,7 +200,14 @@ const Chatbot: React.FC = () => {
                             {messages.map((message, index) => (
                                 <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                     <div className={`max-w-[85%] p-4 rounded-2xl shadow-sm ${message.role === 'user' ? 'bg-primary text-primary-foreground rounded-tr-none' : 'bg-muted/80 backdrop-blur-sm border border-border/50 text-foreground rounded-tl-none'}`}>
-                                        <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                                        <div className={`text-sm leading-relaxed prose prose-sm max-w-none 
+                                            ${message.role === 'user'
+                                                ? 'prose-invert prose-p:text-primary-foreground prose-headings:text-primary-foreground prose-strong:text-primary-foreground'
+                                                : 'dark:prose-invert prose-p:text-foreground prose-headings:text-foreground prose-strong:text-foreground'}`}>
+                                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                                {message.content}
+                                            </ReactMarkdown>
+                                        </div>
                                         {message.isExternal && (
                                             <div className="mt-2 flex items-center gap-1 opacity-40 text-[8px] uppercase font-bold text-primary italic border-t border-primary/10 pt-1">
                                                 <Globe className="w-2.5 h-2.5" /> Verified by Global AI

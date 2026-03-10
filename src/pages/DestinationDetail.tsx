@@ -229,8 +229,8 @@ const DestinationDetail = () => {
                                     </div>
                                     <div>
                                         <p className="text-xs text-muted-foreground font-black uppercase tracking-widest mb-1">Zonal Contact</p>
-                                        <p className="font-bold text-foreground">+255 (0) 26 232 1504</p>
-                                        <p className="text-sm text-muted-foreground">info@tawa.go.tz</p>
+                                        <p className="font-bold text-foreground">+255 (0) 23 293 4204</p>
+                                        <p className="text-sm text-muted-foreground">cc@tawa.go.tz</p>
                                     </div>
                                 </div>
                             </div>

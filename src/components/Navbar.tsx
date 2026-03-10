@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Menu, X, Search, Sun, Moon, ChevronDown, Link as LinkIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { destinations } from "../data/destinations";
+import LanguageChanger from "./LanguageChanger";
 
 const menuItems = [
   { label: "Home", href: "/" },
@@ -82,17 +83,11 @@ const menuItems = [
     label: "E-Service",
     href: "#",
     bgImage: "/images/dropdown-bg.jpg",
-    viewAllHref: "https://portal.maliasili.go.tz/",
-    viewAllText: "MNRT Portal",
     dropdownItems: [
       { name: "MNRT Portal", href: "https://portal.maliasili.go.tz/" },
       { name: "TAWA Webmail", href: "https://mail.tawa.go.tz/" },
       { name: "Utalii Kiganjani", href: "https://utalii.maliasili.go.tz/" },
     ]
-  },
-  {
-    label: "Contact",
-    href: "/#contact",
   },
   {
     label: "Plan Your Visit",
@@ -202,163 +197,194 @@ const Navbar = ({ customMenuItems }: NavbarProps) => {
             {/* Desktop Menu — perfectly centered using flex-1 */}
             <div className="hidden lg:flex flex-1 items-center justify-center">
               <div className="flex items-center gap-3 xl:gap-4 w-full justify-evenly px-2">
-                {currentMenuItems.map((item) => (
-                  (item.dropdownItems || item.useDestinations) ? (
-                    <div key={item.label} className="relative group">
-                      <Link
-                        to={item.href}
-                        className={`flex items-center gap-0.5 relative px-0.5 py-1 font-montserrat text-[10px] xl:text-[11px] font-bold uppercase tracking-wider transition-all duration-300
+                {currentMenuItems.map((item, idx) => (
+                  <motion.div
+                    key={item.label}
+                    initial={{ opacity: 0, y: -20, filter: "blur(5px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    transition={{
+                      duration: 0.5,
+                      delay: idx * 0.1,
+                      type: "spring",
+                      stiffness: 100
+                    }}
+                  >
+                    {(item.dropdownItems || item.useDestinations) ? (
+                      <div className="relative group">
+                        <Link
+                          to={item.href}
+                          className={`flex items-center gap-0.5 relative px-0.5 py-1 font-montserrat text-[10px] xl:text-[11px] font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-300
                           ${isScrolled
+                              ? "text-foreground hover:text-primary"
+                              : "text-white hover:text-yellow-300"
+                            }`}
+                        >
+                          {item.label}
+                          <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />
+                          <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-[calc(100%-0.75rem)] transition-all duration-300 rounded-full
+                          ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
+                        </Link>
+
+                        {/* Standardized Dropdown */}
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                          <div className="relative bg-card/95 backdrop-blur-md rounded-2xl shadow-2xl border border-border p-2">
+                            {/* Dynamic Aesthetic Background Image Overlay */}
+                            <div
+                              className="absolute inset-0 opacity-[0.4] dark:opacity-[0.2] bg-cover bg-center rounded-2xl pointer-events-none"
+                              style={{ backgroundImage: `url('${item.bgImage}')` }}
+                            />
+
+                            <div className="relative z-10 grid grid-cols-1 gap-1">
+                              {item.useDestinations
+                                ? destinations.slice(0, 6).map((dest) => (
+                                  <Link
+                                    key={dest.id}
+                                    to={`/destinations/${dest.id}`}
+                                    className="relative px-4 py-3 text-base font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-xl transition-all flex items-center gap-3 group/link backdrop-blur-md border border-border/50 shadow-sm"
+                                  >
+                                    <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
+                                    <span className="drop-shadow-sm">{dest.name}</span>
+                                  </Link>
+                                ))
+                                : item.dropdownItems?.map((dropItem, idx) => (
+                                  <div key={idx} className="relative group/sub">
+                                    {dropItem.subItems ? (
+                                      <>
+                                        <div className="relative px-4 py-3 text-base font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-xl transition-all flex items-center justify-between gap-3 group/link backdrop-blur-md border border-border/50 shadow-sm cursor-default">
+                                          <div className="flex items-center gap-3">
+                                            <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
+                                            <span className="drop-shadow-sm">{dropItem.name}</span>
+                                          </div>
+                                          <ChevronDown className="w-4 h-4 -rotate-90 transition-transform group-hover/sub:rotate-0" />
+                                        </div>
+
+                                        {/* Sub-dropdown Flyout */}
+                                        <div className="absolute left-[calc(100%+0.5rem)] top-0 w-64 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300 z-[60]">
+                                          <div className="bg-card/95 backdrop-blur-md rounded-2xl shadow-2xl border border-border p-2 space-y-1">
+                                            {dropItem.subItems.map((sub, sIdx) => (
+                                              <Link
+                                                key={sIdx}
+                                                to={sub.href}
+                                                className="block px-4 py-2 text-sm font-bold text-foreground hover:text-primary hover:bg-background/80 rounded-lg transition-all"
+                                              >
+                                                {sub.name}
+                                              </Link>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      </>
+                                    ) : dropItem.href.startsWith("http") ? (
+                                      <a
+                                        href={dropItem.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="relative px-4 py-3 text-base font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-xl transition-all flex items-center gap-3 group/link backdrop-blur-md border border-border/50 shadow-sm"
+                                      >
+                                        <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
+                                        <span className="drop-shadow-sm">{dropItem.name}</span>
+                                      </a>
+                                    ) : (
+                                      <Link
+                                        to={dropItem.href}
+                                        className="relative px-4 py-3 text-base font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-xl transition-all flex items-center gap-3 group/link backdrop-blur-md border border-border/50 shadow-sm"
+                                      >
+                                        <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
+                                        <span className="drop-shadow-sm">{dropItem.name}</span>
+                                      </Link>
+                                    )}
+                                  </div>
+                                ))
+                              }
+                            </div>
+                            <div className="relative z-10 mt-2 border-t border-border/50">
+                              {item.viewAllHref?.startsWith("http") ? (
+                                <a
+                                  href={item.viewAllHref}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="block px-4 py-3 text-xs font-bold text-primary bg-background/70 hover:bg-background/95 rounded-b-lg text-center uppercase tracking-widest transition-colors backdrop-blur-sm"
+                                >
+                                  {item.viewAllText}
+                                </a>
+                              ) : item.viewAllHref ? (
+                                <Link
+                                  to={item.viewAllHref}
+                                  className="block px-4 py-3 text-xs font-bold text-primary bg-background/70 hover:bg-background/95 rounded-b-lg text-center uppercase tracking-widest transition-colors backdrop-blur-sm"
+                                >
+                                  {item.viewAllText}
+                                </Link>
+                              ) : null}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ) : item.isLocal ? (
+                      <a
+                        href={item.href}
+                        className={`relative group px-1 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-300
+                        ${isScrolled
                             ? "text-foreground hover:text-primary"
                             : "text-white hover:text-yellow-300"
                           }`}
                       >
                         {item.label}
-                        <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />
-                        <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-[calc(100%-0.75rem)] transition-all duration-300 rounded-full
-                          ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
+                        <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-full transition-all duration-300 rounded-full
+                        ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
+                      </a>
+                    ) : item.isCTA ? (
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        animate={{
+                          boxShadow: [
+                            "0px 0px 0px 0px rgba(234, 180, 5, 0)",
+                            "0px 0px 15px 5px rgba(234, 180, 5, 0.4)",
+                            "0px 0px 0px 0px rgba(234, 180, 5, 0)",
+                          ],
+                        }}
+                        transition={{
+                          boxShadow: {
+                            repeat: Infinity,
+                            duration: 2,
+                          }
+                        }}
+                        className="rounded-md"
+                      >
+                        <Link
+                          to={item.href}
+                          className={`px-3 py-1.5 rounded-md font-montserrat text-[10px] xl:text-[11px] font-black uppercase tracking-tighter whitespace-nowrap transition-all duration-300 shadow-sm block
+                          ${isScrolled
+                              ? "gold-gradient text-primary-foreground"
+                              : "bg-white text-primary hover:bg-yellow-300"
+                            }`}
+                        >
+                          {item.label}
+                        </Link>
+                      </motion.div>
+                    ) : (
+                      <Link
+                        to={item.href}
+                        className={`relative group px-0.5 py-1 font-montserrat text-[10px] xl:text-[11px] font-bold uppercase tracking-wider whitespace-nowrap transition-all duration-300
+                        ${isScrolled
+                            ? "text-foreground hover:text-primary"
+                            : "text-white hover:text-yellow-300"
+                          }`}
+                      >
+                        {item.label}
+                        <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-full transition-all duration-300 rounded-full
+                        ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
                       </Link>
-
-                      {/* Standardized Dropdown */}
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 w-72 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                        <div className="relative bg-card/95 backdrop-blur-md rounded-2xl shadow-2xl border border-border p-2">
-                          {/* Dynamic Aesthetic Background Image Overlay */}
-                          <div
-                            className="absolute inset-0 opacity-[0.4] dark:opacity-[0.2] bg-cover bg-center rounded-2xl pointer-events-none"
-                            style={{ backgroundImage: `url('${item.bgImage}')` }}
-                          />
-
-                          <div className="relative z-10 grid grid-cols-1 gap-1">
-                            {item.useDestinations
-                              ? destinations.slice(0, 6).map((dest) => (
-                                <Link
-                                  key={dest.id}
-                                  to={`/destinations/${dest.id}`}
-                                  className="relative px-4 py-3 text-base font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-xl transition-all flex items-center gap-3 group/link backdrop-blur-md border border-border/50 shadow-sm"
-                                >
-                                  <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
-                                  <span className="drop-shadow-sm">{dest.name}</span>
-                                </Link>
-                              ))
-                              : item.dropdownItems?.map((dropItem, idx) => (
-                                <div key={idx} className="relative group/sub">
-                                  {dropItem.subItems ? (
-                                    <>
-                                      <div className="relative px-4 py-3 text-base font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-xl transition-all flex items-center justify-between gap-3 group/link backdrop-blur-md border border-border/50 shadow-sm cursor-default">
-                                        <div className="flex items-center gap-3">
-                                          <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
-                                          <span className="drop-shadow-sm">{dropItem.name}</span>
-                                        </div>
-                                        <ChevronDown className="w-4 h-4 -rotate-90 transition-transform group-hover/sub:rotate-0" />
-                                      </div>
-
-                                      {/* Sub-dropdown Flyout */}
-                                      <div className="absolute left-[calc(100%+0.5rem)] top-0 w-64 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300 z-[60]">
-                                        <div className="bg-card/95 backdrop-blur-md rounded-2xl shadow-2xl border border-border p-2 space-y-1">
-                                          {dropItem.subItems.map((sub, sIdx) => (
-                                            <Link
-                                              key={sIdx}
-                                              to={sub.href}
-                                              className="block px-4 py-2 text-sm font-bold text-foreground hover:text-primary hover:bg-background/80 rounded-lg transition-all"
-                                            >
-                                              {sub.name}
-                                            </Link>
-                                          ))}
-                                        </div>
-                                      </div>
-                                    </>
-                                  ) : dropItem.href.startsWith("http") ? (
-                                    <a
-                                      href={dropItem.href}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="relative px-4 py-3 text-base font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-xl transition-all flex items-center gap-3 group/link backdrop-blur-md border border-border/50 shadow-sm"
-                                    >
-                                      <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
-                                      <span className="drop-shadow-sm">{dropItem.name}</span>
-                                    </a>
-                                  ) : (
-                                    <Link
-                                      to={dropItem.href}
-                                      className="relative px-4 py-3 text-base font-black text-foreground hover:text-primary bg-background/60 hover:bg-background/95 rounded-xl transition-all flex items-center gap-3 group/link backdrop-blur-md border border-border/50 shadow-sm"
-                                    >
-                                      <div className="w-2 h-2 rounded-full bg-safari-gold opacity-0 group-hover/link:opacity-100 transition-opacity shadow-sm" />
-                                      <span className="drop-shadow-sm">{dropItem.name}</span>
-                                    </Link>
-                                  )}
-                                </div>
-                              ))
-                            }
-                          </div>
-                          <div className="relative z-10 mt-2 border-t border-border/50">
-                            {item.viewAllHref?.startsWith("http") ? (
-                              <a
-                                href={item.viewAllHref}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block px-4 py-3 text-xs font-bold text-primary bg-background/70 hover:bg-background/95 rounded-b-lg text-center uppercase tracking-widest transition-colors backdrop-blur-sm"
-                              >
-                                {item.viewAllText}
-                              </a>
-                            ) : (
-                              <Link
-                                to={item.viewAllHref as string}
-                                className="block px-4 py-3 text-xs font-bold text-primary bg-background/70 hover:bg-background/95 rounded-b-lg text-center uppercase tracking-widest transition-colors backdrop-blur-sm"
-                              >
-                                {item.viewAllText}
-                              </Link>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : item.isLocal ? (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className={`relative group px-1 py-1 font-montserrat text-sm font-semibold uppercase tracking-wider transition-all duration-300
-                        ${isScrolled
-                          ? "text-foreground hover:text-primary"
-                          : "text-white hover:text-yellow-300"
-                        }`}
-                    >
-                      {item.label}
-                      <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-full transition-all duration-300 rounded-full
-                        ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
-                    </a>
-                  ) : item.isCTA ? (
-                    <Link
-                      key={item.label}
-                      to={item.href}
-                      className={`px-3 py-1.5 rounded-md font-montserrat text-[10px] xl:text-[11px] font-black uppercase tracking-tighter transition-all duration-300 hover:scale-105 shadow-sm
-                        ${isScrolled
-                          ? "gold-gradient text-primary-foreground"
-                          : "bg-white text-primary hover:bg-yellow-300"
-                        }`}
-                    >
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <Link
-                      key={item.label}
-                      to={item.href}
-                      className={`relative group px-0.5 py-1 font-montserrat text-[10px] xl:text-[11px] font-bold uppercase tracking-wider transition-all duration-300
-                        ${isScrolled
-                          ? "text-foreground hover:text-primary"
-                          : "text-white hover:text-yellow-300"
-                        }`}
-                    >
-                      {item.label}
-                      <span className={`absolute left-0 -bottom-0.5 h-[2px] w-0 group-hover:w-full transition-all duration-300 rounded-full
-                        ${isScrolled ? "bg-primary" : "bg-yellow-300"}`} />
-                    </Link>
-                  )
+                    )}
+                  </motion.div>
                 ))}
               </div>
             </div>
 
             {/* Right side group */}
             <div className="flex items-center justify-end gap-2 lg:gap-3 flex-shrink-0">
+              {/* Language Changer */}
+              <LanguageChanger isScrolled={isScrolled} />
+
               {/* Theme Toggle — Far Right */}
               <button
                 onClick={toggleTheme}

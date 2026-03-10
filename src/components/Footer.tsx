@@ -39,10 +39,17 @@ const Footer = () => {
               Tanzania Wildlife Management Authority — conserving and managing Tanzania's wildlife heritage for future generations.
             </p>
             <div className="flex gap-3">
-              {[Facebook, Twitter, Instagram, Youtube].map((Icon, i) => (
+              {[
+                { Icon: Facebook, href: "https://www.facebook.com/tawa.tanzania" },
+                { Icon: Twitter, href: "https://twitter.com/tawa_tanzania" },
+                { Icon: Instagram, href: "https://www.instagram.com/tawa_tanzania" },
+                { Icon: Youtube, href: "https://www.youtube.com/@TAWATANZANIA" }
+              ].map(({ Icon, href }, i) => (
                 <a
                   key={i}
-                  href="#"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                 >
                   <Icon className="w-4 h-4" />
@@ -84,16 +91,27 @@ const Footer = () => {
             <h3 className="font-display font-semibold text-foreground mb-5">Contact Us</h3>
             <div className="space-y-4 text-sm text-muted-foreground">
               <div className="flex gap-3">
-                <MapPin className="w-5 h-5 text-safari-gold shrink-0" />
-                <p>Mpingo House, Nyerere Road<br />Dodoma, Tanzania</p>
+                <MapPin className="w-5 h-5 text-safari-gold shrink-0 mt-0.5" />
+                <p>TAWA Headquarters, TAFORI Building<br />Kingolwira Area, Morogoro, Tanzania</p>
               </div>
               <div className="flex gap-3">
                 <Phone className="w-5 h-5 text-safari-gold shrink-0" />
-                <p>+255 26 232 1504</p>
+                <p>+255 23 293 4204</p>
               </div>
               <div className="flex gap-3">
                 <Mail className="w-5 h-5 text-safari-gold shrink-0" />
-                <p>info@tawa.go.tz</p>
+                <p>cc@tawa.go.tz</p>
+              </div>
+              <div className="mt-4 rounded-lg overflow-hidden border border-border h-32 w-full">
+                <iframe
+                  title="TAWA Headquarters Map"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  src="https://maps.google.com/maps?q=Tanzania%20Wildlife%20Management%20Authority%20TAWA%20Morogoro&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                />
               </div>
             </div>
           </div>
