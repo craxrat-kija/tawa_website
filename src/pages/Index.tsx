@@ -9,10 +9,11 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import NewsletterSection from "@/components/NewsletterSection";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import UpdateNotification from "@/components/UpdateNotification";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <Navbar />
       <HeroSection />
       <AboutSection />
@@ -23,6 +24,7 @@ const Index = () => {
       <TestimonialsSection />
       <NewsletterSection />
       <Footer />
+      <UpdateNotification />
       <ScrollToTop />
     </div>
   );

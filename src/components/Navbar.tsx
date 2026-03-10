@@ -4,6 +4,7 @@ import { Menu, X, Search, Sun, Moon, ChevronDown, Link as LinkIcon } from "lucid
 import { motion, AnimatePresence } from "framer-motion";
 import { destinations } from "../data/destinations";
 import LanguageChanger from "./LanguageChanger";
+import { PresentationModal } from "./PresentationModal";
 
 const menuItems = [
   { label: "Home", href: "/" },
@@ -382,6 +383,9 @@ const Navbar = ({ customMenuItems }: NavbarProps) => {
 
             {/* Right side group */}
             <div className="flex items-center justify-end gap-2 lg:gap-3 flex-shrink-0">
+              {/* Presentation Button */}
+              <PresentationModal />
+
               {/* Language Changer */}
               <LanguageChanger isScrolled={isScrolled} />
 
