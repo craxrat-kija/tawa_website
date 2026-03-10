@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Destination;
+use App\RoleEnum;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +16,56 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $reserves = [
+            'Selous Game Reserve',
+            'Ikorongo Game Reserve',
+            'Grumeti Game Reserve',
+            'Maswa Game Reserve',
+            'Moyowosi Game Reserve',
+            'Pande Game Reserve',
+            'Lukwati Game Reserve',
+            'Piti Game Reserve',
+            'Kigosi Game Reserve',
+            'Ugalla River Game Reserve',
+            'Liparamba Game Reserve',
+            'Kizigo Game Reserve',
+            'Muhesi Game Reserve'
+        ];
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        foreach ($reserves as $reserve) {
+            Destination::create([
+                'name' => $reserve,
+                'slug' => Str::slug($reserve),
+                'description' => "Official $reserve managed by TAWA.",
+                'type' => 'Game Reserve',
+                'is_active' => true,
+            ]);
+        }
+
+        // Create Super Admin
+        User::create([
+            'name' => 'Super Admin',
+            'email' => 'admin@tawa.go.tz',
+            'password' => Hash::make('password'),
+            'role' => RoleEnum::SUPER_ADMIN,
+        ]);
+
+        // Create a Destination Admin for Selous
+        $selous = Destination::where('name', 'Selous Game Reserve')->first();
+        User::create([
+            'name' => 'Selous Manager',
+            'email' => 'selous@tawa.go.tz',
+            'password' => Hash::make('password'),
+            'role' => RoleEnum::DESTINATION_ADMIN,
+            'destination_id' => $selous->id,
+        ]);
+
+        // Create a Media Admin
+        User::create([
+            'name' => 'Media Officer',
+            'email' => 'media@tawa.go.tz',
+            'password' => Hash::make('password'),
+            'role' => RoleEnum::MEDIA_ADMIN,
         ]);
     }
 }

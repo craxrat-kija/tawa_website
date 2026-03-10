@@ -4,8 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+enum RoleEnum: string
 {
+    case SUPER_ADMIN = 'super_admin';
+    case DESTINATION_ADMIN = 'destination_admin';
+    case MEDIA_ADMIN = 'media_admin';
+}
+
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -17,6 +23,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role')->default(RoleEnum::DESTINATION_ADMIN->value);
+            $table->unsignedBigInteger('destination_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
