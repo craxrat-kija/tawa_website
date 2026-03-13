@@ -71,7 +71,7 @@ const StatsSection = ({ items }: StatsSectionProps) => {
         <div className="absolute bottom-10 right-20 w-60 h-60 border border-primary-foreground rounded-full" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {displayItems.map((stat, i) => (
             <motion.div

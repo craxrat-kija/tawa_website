@@ -5,7 +5,6 @@ import AboutSection from "@/components/AboutSection";
 import DestinationsSection from "@/components/DestinationsSection";
 import StatsSection from "@/components/StatsSection";
 import NewsSection from "@/components/NewsSection";
-import GallerySection from "@/components/GallerySection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import NewsletterSection from "@/components/NewsletterSection";
 import Footer from "@/components/Footer";
@@ -41,8 +40,7 @@ const Index = () => {
         return <DestinationsSection key={key} />;
       case 'news':
         return <NewsSection key={key} />;
-      case 'gallery':
-        return <GallerySection key={key} {...section.data} />;
+
       case 'testimonials':
         return <TestimonialsSection key={key} />;
       case 'newsletter':
@@ -72,7 +70,6 @@ const Index = () => {
           <StatsSection />
           <DestinationsSection />
           <NewsSection />
-          <GallerySection />
           <TestimonialsSection />
           <NewsletterSection />
         </>

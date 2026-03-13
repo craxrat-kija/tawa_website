@@ -17,6 +17,7 @@ import Conservation from "./pages/Conservation";
 
 import ScrollToTopWrapper from "./components/ScrollToTopWrapper";
 import Chatbot from "./components/Chatbot";
+import QuickAccessSidebar from "./components/QuickAccessSidebar";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ScrollToTopWrapper>
+        <QuickAccessSidebar />
         <Chatbot />
       </HashRouter>
     </TooltipProvider>

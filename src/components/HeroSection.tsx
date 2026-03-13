@@ -52,14 +52,7 @@ const HeroSection = ({ title, subtitle, image, cta_text, cta_link }: HeroSection
           transition={{ duration: 0.8, delay: 0.3 }}
           className="max-w-3xl"
         >
-          <motion.span
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="inline-block px-4 py-1.5 rounded-full border border-safari-gold/40 text-safari-gold text-sm font-medium mb-6 backdrop-blur-sm"
-          >
-            Tanzania Wildlife Management Authority
-          </motion.span>
+
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold text-primary-foreground leading-[1.1] mb-6">
             {displayTitle.split(' ').map((word, i) => (
