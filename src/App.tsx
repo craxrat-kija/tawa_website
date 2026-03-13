@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import DestinationsList from "./pages/Destinations";
 import DestinationDetail from "./pages/DestinationDetail";
 import AboutTawa from "./pages/AboutTawa";
+import ZonePage from "./pages/ZonePage";
 import News from "./pages/News";
 import Gallery from "./pages/Gallery";
 import Tourism from "./pages/Tourism";
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/destinations" element={<DestinationsList />} />
             <Route path="/destinations/:id" element={<DestinationDetail />} />
             <Route path="/about" element={<AboutTawa />} />
+            <Route path="/about/zones/:zoneId" element={<ZonePage />} />
             <Route path="/news" element={<News />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/tourism" element={<Tourism />} />

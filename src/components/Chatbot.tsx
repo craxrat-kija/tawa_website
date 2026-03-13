@@ -199,20 +199,24 @@ const Chatbot: React.FC = () => {
                         initial={{ opacity: 0, scale: 0.8, y: 50, filter: 'blur(10px)' }}
                         animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
                         exit={{ opacity: 0, scale: 0.8, y: 50, filter: 'blur(10px)' }}
-                        className="mb-4 bg-background/80 backdrop-blur-2xl border border-white/20 rounded-[32px] shadow-[0_32px_128px_rgba(0,0,0,0.3)] w-[380px] max-w-[90vw] h-[580px] overflow-hidden flex flex-col ring-1 ring-white/10"
+                        className="mb-4 bg-background/80 backdrop-blur-2xl border border-white/20 rounded-[32px] shadow-[0_32px_128px_rgba(0,0,0,0.3)] w-[420px] max-w-[92vw] h-[600px] overflow-hidden flex flex-col ring-1 ring-white/10"
                     >
                         {/* Header */}
-                        <div className="p-6 bg-primary text-primary-foreground flex items-center justify-between shadow-lg relative overflow-hidden">
+                        <div className="p-5 bg-primary text-primary-foreground flex items-center justify-between shadow-lg relative overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
                             <div className="flex items-center gap-3 relative z-10">
-                                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-md relative">
-                                    <Command className="w-6 h-6" />
-                                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 border-2 border-primary rounded-full animate-pulse" />
+                                <div className="w-14 h-14 rounded-full bg-black overflow-hidden border-2 border-white/30 flex-shrink-0 relative shadow-lg">
+                                    <img
+                                        src="/images/tawa-chatbot-elephant.jpg"
+                                        alt="TAWA Elephant Assistant"
+                                        className="w-full h-full object-cover object-top"
+                                    />
+                                    <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-400 border-2 border-primary rounded-full animate-pulse" />
                                 </div>
                                 <div>
-                                    <h3 className="font-black uppercase tracking-tight text-lg">TAWA Assistant</h3>
+                                    <h3 className="font-black uppercase tracking-tight text-lg leading-tight">TAWA Assistant</h3>
                                     <div className="flex items-center gap-1.5 opacity-80">
-                                        <span className="text-[10px] uppercase font-bold tracking-widest">Digital Help Desk Active</span>
+                                        <span className="text-[10px] uppercase font-bold tracking-widest">● Online &amp; Ready to Help</span>
                                     </div>
                                 </div>
                             </div>
@@ -296,15 +300,62 @@ const Chatbot: React.FC = () => {
                 )}
             </AnimatePresence>
 
-            <motion.button
-                whileHover={{ scale: 1.05, rotate: 5 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsOpen(!isOpen)}
-                className="w-16 h-16 bg-primary text-primary-foreground rounded-full shadow-[0_12px_48px_-8px_rgba(0,0,0,0.3)] flex items-center justify-center relative overflow-hidden group border-2 border-white/20"
-            >
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent" />
-                {isOpen ? <X className="w-8 h-8 relative z-10" /> : <MessageCircle className="w-8 h-8 relative z-10" />}
-            </motion.button>
+            <div className="flex flex-col items-center gap-2">
+                <motion.button
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="w-20 h-20 rounded-full shadow-[0_16px_56px_-8px_rgba(0,0,0,0.5)] relative overflow-hidden border-[3px] border-white/50"
+                    style={{ background: '#000' }}
+                >
+                    <AnimatePresence mode="wait">
+                        {isOpen ? (
+                            <motion.div
+                                key="close"
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.5 }}
+                                className="absolute inset-0 bg-primary flex items-center justify-center"
+                            >
+                                <X className="w-9 h-9 text-white" />
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                key="elephant"
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.5 }}
+                                className="absolute inset-0"
+                            >
+                                <img
+                                    src="/images/tawa-chatbot-elephant.jpg"
+                                    alt="Chat with TAWA"
+                                    className="w-full h-full object-cover object-top"
+                                />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                    {/* Online indicator */}
+                    {!isOpen && (
+                        <div className="absolute bottom-0.5 right-0.5 w-4 h-4 bg-green-400 border-2 border-white rounded-full z-10" />
+                    )}
+                </motion.button>
+
+                {/* Label */}
+                <AnimatePresence>
+                    {!isOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -6 }}
+                            transition={{ duration: 0.2 }}
+                            className="bg-primary text-primary-foreground text-[11px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap"
+                        >
+                            Chat with TAWA
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
         </div>
     );
 };

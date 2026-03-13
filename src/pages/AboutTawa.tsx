@@ -7,6 +7,7 @@ import OptimizedImage from "../components/OptimizedImage";
 
 import { useState } from "react";
 import { OrgChartModal } from "../components/OrgChart";
+import ZonesSection from "../components/ZonesSection";
 
 const AboutTawa = () => {
     const [isOrgModalOpen, setIsOrgModalOpen] = useState(false);
@@ -97,6 +98,9 @@ const AboutTawa = () => {
                             </div>
                         </div>
                     </div>
+
+                    {/* Operational Zones */}
+                    <ZonesSection />
 
                     {/* Management & Leadership */}
                     <div id="management" className="bg-card rounded-3xl p-8 md:p-12 shadow-xl border border-border/50 text-center">
